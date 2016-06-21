@@ -1,0 +1,24 @@
+{
+  "name": "bms",
+  "description": "BMS",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bower-installer": "*"
+  },
+  "scripts": {
+    "postinstall": "bower-installer"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-cli": "^1.1.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1"
+  },
+  "readme": "No README data found!"
+}

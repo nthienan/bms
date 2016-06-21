@@ -1,0 +1,115 @@
+group 'com.nthienan'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'spring-boot'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.springframework:spring-jdbc'
+    compile 'org.springframework.hateoas:spring-hateoas'
+    compile 'mysql:mysql-connector-java'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'org.jetbrains:annotations:15.0'
+    compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
+
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+configurations {
+    providedRuntime
+}
+
+bootRun {
+    addResources true
+}
+
+bootRepackage {
+    mainClass 'com.nthienan.ocv.Application'
+    excludeDevtools true
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.nthienan.bms.Application'
+    }
+}
+
+buildscript {
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+task jsUpdate(type: Exec) {
+    group 'javascript'
+    description 'Copy Javascript libraries to static resources directory.'
+    commandLine 'cmd', '/c', 'npm', 'install'
+}
+//bootRun.dependsOn jsUpdate
+build.dependsOn jsUpdate
+
+task jsClean(type: Delete) {
+    group 'javascript'
+    description 'Clean Javascript libraries.'
+    delete 'src/main/resources/public/lib'
+}
+clean.dependsOn jsClean
+
+
+task angularProduction(type: Exec) {
+    group 'angular'
+    description 'Concat, minify and copy to web static resource for all angular code for production.'
+    commandLine 'cmd', '/c', 'grunt', 'production'
+}
+bootRepackage.dependsOn angularProduction
+jar.dependsOn angularProduction
+war.dependsOn angularProduction
+build.dependsOn angularProduction
+jsUpdate.dependsOn angularProduction
+
+task angularDev(type: Exec) {
+    group 'angular'
+    description 'Concat and copy to web static resource for all angular code for development.'
+    commandLine 'cmd', '/c', 'grunt', 'dev'
+}
+bootRun.dependsOn angularDev
+
+task angularClean(type: Exec) {
+    group 'angular'
+    description 'Clean all angular code in web static resources'
+    commandLine 'cmd', '/c', 'grunt', 'clean'
+}
+clean.dependsOn angularClean
+
+task npmClean(type: Delete) {
+    group 'npm'
+    description 'Clean npm modules'
+    delete 'node_modules'
+}
+
+task npmInstall(type: Exec) {
+    group 'npm'
+    description 'Install npm modules'
+    commandLine 'cmd', '/c', 'npm', 'install'
+}
