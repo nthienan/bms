@@ -43,4 +43,9 @@ public class ApplianceServiceImpl implements ApplianceService {
     public Page<Appliance> getPage(Pageable pageable) {
         return applianceRepository.findAll(pageable);
     }
+
+    @Override
+    public void delete(Appliance appliance) {
+        applianceRepository.delete(appliance);
+    }
 }

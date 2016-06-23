@@ -10,7 +10,8 @@
     "angular-sanitize": "1.5.3",
     "angular-animate": "1.5.3",
     "angular-ui-router": "*",
-    "angular-material": "*"
+    "angular-material": "*",
+    "angular-material-data-table": "*"
   },
   "resolutions": {
     "angular": "1.5.3"
@@ -45,6 +46,10 @@
       "angular-material": [
         "build/jslibs/angular-material/angular-material.min.js",
         "build/jslibs/angular-material/angular-material.min.css"
+      ],
+      "angular-material-data-table": [
+        "build/jslibs/angular-material-data-table/dist/md-data-table.min.js",
+        "build/jslibs/angular-material-data-table/dist/md-data-table.min.css"
       ]
     }
   },

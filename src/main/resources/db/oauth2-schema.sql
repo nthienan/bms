@@ -39,3 +39,5 @@ create table oauth_refresh_token (
 create table oauth_code (
   code VARCHAR(255), authentication BLOB
 );
+
+INSERT INTO bms.oauth_client_details (client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove) VALUES ('bms', null, 's3cr3t', 'read,write', 'password,client_credentials,refresh_token,authorization_code', null, null, 300, 2592000, null, null);

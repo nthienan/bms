@@ -26,4 +26,6 @@ public interface ApplianceService {
 
     @Nullable
     Page<Appliance> getPage(Pageable pageable);
+
+    void delete(@NotNull Appliance appliance);
 }

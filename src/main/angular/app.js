@@ -1,4 +1,5 @@
-var bms = angular.module('bms', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'ui.router', 'ngMaterial']);
+var bms = angular.module('bms', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'ui.router', 'ngMaterial',
+    'md.data.table']);
 
 bms.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -32,5 +33,4 @@ bms.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
                 }
             };
         });
-
     }]);
