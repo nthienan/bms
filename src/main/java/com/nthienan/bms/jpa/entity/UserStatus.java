@@ -1,4 +1,4 @@
-package com.nthienan.bms.model;
+package com.nthienan.bms.jpa.entity;
 
 /**
  * Created on 10/06/2016.

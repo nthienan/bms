@@ -1,11 +1,12 @@
 package com.nthienan.bms.rest.controller;
 
 import com.nthienan.bms.exception.ResourceNotFoundException;
-import com.nthienan.bms.model.Appliance;
+import com.nthienan.bms.jpa.entity.Appliance;
 import com.nthienan.bms.rest.assembler.ApplianceResourceAssembler;
+import com.nthienan.bms.rest.assembler.UserResourceAssembler;
 import com.nthienan.bms.rest.resource.ApplianceResource;
+import com.nthienan.bms.rest.resource.UserResource;
 import com.nthienan.bms.service.ApplianceService;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +38,15 @@ public class ApplianceController {
     ApplianceService applianceService;
 
     @Autowired
-    ApplianceResourceAssembler assembler;
+    ApplianceResourceAssembler applianceAssembler;
+
+    @Autowired
+    UserResourceAssembler userAssembler;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PagedResources<Appliance>> getPage(@PageableDefault Pageable pageable,
-                                                             PagedResourcesAssembler pagedAssembler) {
+    public ResponseEntity<PagedResources<Appliance>> getPage(@PageableDefault Pageable pageable, PagedResourcesAssembler pagedAssembler) {
         Page<Appliance> appliancePage = applianceService.getPage(pageable);
-        return ResponseEntity.ok(pagedAssembler.toResource(appliancePage, assembler));
+        return ResponseEntity.ok(pagedAssembler.toResource(appliancePage, applianceAssembler));
     }
 
     @RequestMapping(value = "/{applianceId}", method = RequestMethod.GET)
@@ -52,13 +55,13 @@ public class ApplianceController {
         if (appliance == null) {
             throw new ResourceNotFoundException("Appliance " + applianceId + " was not found.");
         }
-        return ResponseEntity.ok(assembler.toResource(appliance));
+        return ResponseEntity.ok(applianceAssembler.toResource(appliance));
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ApplianceResource> create(@RequestBody Appliance appliance) {
         Appliance result = applianceService.create(appliance);
-        return ResponseEntity.status(HttpStatus.CREATED).body(assembler.toResource(result));
+        return ResponseEntity.status(HttpStatus.CREATED).body(applianceAssembler.toResource(result));
     }
 
     @RequestMapping(params = {"ids"}, method = RequestMethod.DELETE)
@@ -73,4 +76,18 @@ public class ApplianceController {
         return ResponseEntity.ok().build();
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<ApplianceResource> update(@RequestBody Appliance appliance) {
+        Appliance result = applianceService.update(appliance);
+        return ResponseEntity.ok(applianceAssembler.toResource(result));
+    }
+
+    @RequestMapping(value = "/{applianceId}/owners", method = RequestMethod.GET)
+    public ResponseEntity<List<UserResource>> getByOwnersByApplianceId(@PathVariable Long applianceId) {
+        Appliance appliance = applianceService.getById(applianceId);
+        if (appliance == null) {
+            throw new ResourceNotFoundException("Appliance " + applianceId + " was not found.");
+        }
+        return ResponseEntity.ok(userAssembler.toResources(appliance.getOwners()));
+    }
 }

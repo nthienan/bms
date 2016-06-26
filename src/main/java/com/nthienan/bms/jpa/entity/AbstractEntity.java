@@ -1,4 +1,4 @@
-package com.nthienan.bms.model;
+package com.nthienan.bms.jpa.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

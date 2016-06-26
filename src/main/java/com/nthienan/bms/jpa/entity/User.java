@@ -1,10 +1,11 @@
-package com.nthienan.bms.model;
+package com.nthienan.bms.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -69,6 +70,10 @@ public class User extends AbstractEntity<Long> implements UserDetails {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Group> groups;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "owners", cascade = CascadeType.ALL)
+    private List<Appliance> appliances;
 
     public User() {
         authorities = new HashSet<>();
@@ -247,4 +252,11 @@ public class User extends AbstractEntity<Long> implements UserDetails {
         this.groups.remove(group);
     }
 
+    public List<Appliance> getAppliances() {
+        return appliances;
+    }
+
+    public void setAppliances(List<Appliance> appliances) {
+        this.appliances = appliances;
+    }
 }

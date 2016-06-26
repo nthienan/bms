@@ -1,7 +1,7 @@
 package com.nthienan.bms.rest.resource;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.nthienan.bms.model.Appliance;
+import com.nthienan.bms.jpa.entity.Appliance;
 import org.springframework.hateoas.ResourceSupport;
 
 /**

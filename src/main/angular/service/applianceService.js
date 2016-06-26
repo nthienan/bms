@@ -5,9 +5,6 @@ bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer',
     function ($http, $cookies, $httpParamSerializer) {
 
         var url = '/api/appliances';
-        if (!$http.defaults.headers.common.Authorization) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get('access_token');
-        }
 
         this.getById = function (applianceId) {
             var req = {
@@ -61,5 +58,16 @@ bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer',
                 };
                 return $http(req);
             }
-        }
+        };
+
+        this.update = function (appliance) {
+            if (appliance) {
+                var req = {
+                    method: 'PUT',
+                    url: url,
+                    data: appliance
+                };
+                return $http(req);
+            }
+        };
     }]);

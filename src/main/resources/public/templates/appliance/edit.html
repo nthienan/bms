@@ -1,14 +1,14 @@
 <md-dialog add-item-dialog ng-cloak>
     <md-dialog-content class="md-dialog-content">
 
-        <h2 class="md-title">Add Appliance</h2>
+        <h2 class="md-title">Update Appliance</h2>
 
         <p ng-if="item.form.$submitted && item.form.$invalid" class="md-warn" layout="row" layout-align="start center">
             <i class="material-icons">error_outline</i>
             <span>&nbsp; All fields are required.</span>
         </p>
 
-        <form name="item.form" ng-submit="create()">
+        <form name="item.form" ng-submit="update()">
             <div layout="row" class="input-row">
                 <md-input-container flex>
                     <label>Name</label>
@@ -27,27 +27,12 @@
                     <input name="ipv4-address" ng-model="appliance.ipv4Address" md-maxlength="15" required>
                 </md-input-container>
             </div>
-            <div layout="row" class="input-row">
-                <md-input-container flex>
-                    <label>IPv4 Address</label>
-                    <md-contact-chips
-                            ng-model="users"
-                            md-contacts="ctrl.delayedQuerySearch($query)"
-                            md-contact-name="name"
-                            md-contact-image="image"
-                            md-contact-email="email"
-                            md-require-match="true"
-                            md-highlight-flags="i"
-                            filter-selected="filterSelected"
-                            placeholder="Owner">
-                </md-input-container>
-            </div>
         </form>
 
     </md-dialog-content>
 
     <md-dialog-actions>
-        <md-button class="md-primary" ng-click="create()" ng-disabled="item.form.$invalid">Submit</md-button>
+        <md-button class="md-primary" ng-click="update()" ng-disabled="item.form.$invalid">Update</md-button>
         <md-button class="md-primary" ng-click="cancel()">Cancel</md-button>
     </md-dialog-actions>
 

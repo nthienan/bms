@@ -1,9 +1,10 @@
-package com.nthienan.bms.repository;
+package com.nthienan.bms.jpa.repo;
 
-import com.nthienan.bms.model.User;
+import com.nthienan.bms.jpa.entity.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author nthienan
  */
 @Service
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
      * @param username an username

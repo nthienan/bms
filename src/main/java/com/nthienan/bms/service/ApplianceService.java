@@ -1,12 +1,10 @@
 package com.nthienan.bms.service;
 
-import com.nthienan.bms.model.Appliance;
+import com.nthienan.bms.jpa.entity.Appliance;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * Created on 14/06/2016.
@@ -28,4 +26,7 @@ public interface ApplianceService {
     Page<Appliance> getPage(Pageable pageable);
 
     void delete(@NotNull Appliance appliance);
+
+    @NotNull
+    Appliance update(@NotNull Appliance appliance);
 }

@@ -26,14 +26,7 @@ bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state',
                 function (response) {
                     $scope.appliances = response.data;
                 }, function (error) {
-                    if (error.data.error === 'invalid_token') {
-                        loginService.obtainAccessToken($cookies.get("refresh_token")).then(
-                            function () {
-                                $scope.getAll();
-                            });
-                    } else {
-                        $log.error(error);
-                    }
+                    $log.error(error);
                 });
         };
 
@@ -61,19 +54,31 @@ bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state',
                 });
             });
         };
-        
-        if (!$cookies.get("access_token")) {
-            var refreshToken = $cookies.get("refresh_token");
-            if (refreshToken) {
-                loginService.obtainAccessToken(refreshToken).then(
-                    function () {
-                        $scope.getAll();
-                    });
-            } else {
-                $state.go('login');
-            }
-        } else {
-            $scope.getAll();
-        }
+
+        $scope.edit = function (appliance) {
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                controller: 'applianceEditCtrl',
+                templateUrl: 'templates/appliance/edit.html',
+                locals: {
+                    appliance: appliance
+                }
+            }).then($scope.getAll);
+        };
+
+        /*if (!$cookies.get("access_token")) {
+         var refreshToken = $cookies.get("refresh_token");
+         if (refreshToken) {
+         loginService.obtainAccessToken(refreshToken).then(
+         function () {
+         $scope.getAll();
+         });
+         } else {
+         $state.go('login');
+         }
+         } else {
+         $scope.getAll();
+         }*/
+        $scope.getAll();
     }
 ]);
