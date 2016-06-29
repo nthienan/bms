@@ -28,7 +28,6 @@ public class Appliance extends AbstractEntity<Long> {
     @Column(name = "ipv4_address", nullable = false, unique = true)
     private String ipv4Address;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "appliance_user",
             joinColumns = {
@@ -61,6 +60,7 @@ public class Appliance extends AbstractEntity<Long> {
         this.ipv4Address = ipv4Address;
     }
 
+    @JsonIgnore
     public Iterable<User> getOwners() {
         return owners;
     }

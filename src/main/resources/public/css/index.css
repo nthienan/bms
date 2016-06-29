@@ -268,3 +268,29 @@ iframe {
     font-weight: normal;
     color: inherit;
 }
+
+.add-dialog {
+    width: 400px;
+    min-width: 300px;
+}
+
+.add-dialog .autocomplete input {
+    min-width: 300px;
+}
+
+.md-contact-suggestion .md-contact-email, .md-contact-suggestion .md-contact-name {
+    overflow: inherit;
+}
+
+.md-contact-suggestion .md-contact-name {
+    margin-left: 8px;
+    width: auto;
+}
+
+.md-contact-suggestion span.md-contact-email {
+    padding-left: 25px;
+}
+
+.highlight {
+    background-color: yellow;
+}

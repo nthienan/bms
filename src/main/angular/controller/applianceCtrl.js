@@ -66,19 +66,6 @@ bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state',
             }).then($scope.getAll);
         };
 
-        /*if (!$cookies.get("access_token")) {
-         var refreshToken = $cookies.get("refresh_token");
-         if (refreshToken) {
-         loginService.obtainAccessToken(refreshToken).then(
-         function () {
-         $scope.getAll();
-         });
-         } else {
-         $state.go('login');
-         }
-         } else {
-         $scope.getAll();
-         }*/
         $scope.getAll();
     }
 ]);

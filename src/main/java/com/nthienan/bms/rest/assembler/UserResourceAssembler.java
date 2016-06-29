@@ -3,6 +3,8 @@ package com.nthienan.bms.rest.assembler;
 import com.nthienan.bms.jpa.entity.User;
 import com.nthienan.bms.rest.controller.UserController;
 import com.nthienan.bms.rest.resource.UserResource;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,11 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
     public UserResource toResource(User user) {
         UserResource resource = createResourceWithId(user.getId(), user);
         resource.setUser(user);
+        resource.add(appliancesLink(user));
         return resource;
+    }
+
+    private Link appliancesLink(User user) {
+        return ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(UserController.class).getApplianceByUserId(user.getId())).withRel("appliances");
     }
 }

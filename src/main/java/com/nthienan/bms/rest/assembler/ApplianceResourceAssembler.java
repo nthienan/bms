@@ -3,6 +3,7 @@ package com.nthienan.bms.rest.assembler;
 import com.nthienan.bms.jpa.entity.Appliance;
 import com.nthienan.bms.rest.controller.ApplianceController;
 import com.nthienan.bms.rest.resource.ApplianceResource;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,11 @@ public class ApplianceResourceAssembler extends ResourceAssemblerSupport<Applian
     public ApplianceResource toResource(Appliance appliance) {
         ApplianceResource applianceResource = createResourceWithId(appliance.getId(), appliance);
         applianceResource.setAppliance(appliance);
-        addOwnersLink(applianceResource, appliance);
+        applianceResource.add(ownersLink(appliance));
         return applianceResource;
     }
 
-    private void addOwnersLink(ApplianceResource resource, Appliance appliance) {
-        resource.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(ApplianceController.class).getByOwnersByApplianceId(appliance.getId())).withRel("owners"));
+    private Link ownersLink(Appliance appliance) {
+        return ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(ApplianceController.class).getByOwnersByApplianceId(appliance.getId())).withRel("owners");
     }
 }

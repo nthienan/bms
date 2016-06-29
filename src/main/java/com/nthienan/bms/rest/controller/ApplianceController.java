@@ -49,7 +49,7 @@ public class ApplianceController {
         return ResponseEntity.ok(pagedAssembler.toResource(appliancePage, applianceAssembler));
     }
 
-    @RequestMapping(value = "/{applianceId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{applianceId:[\\d]+}", method = RequestMethod.GET)
     public ResponseEntity<ApplianceResource> getById(@PathVariable Long applianceId) {
         Appliance appliance = applianceService.getById(applianceId);
         if (appliance == null) {
@@ -82,7 +82,7 @@ public class ApplianceController {
         return ResponseEntity.ok(applianceAssembler.toResource(result));
     }
 
-    @RequestMapping(value = "/{applianceId}/owners", method = RequestMethod.GET)
+    @RequestMapping(value = "/{applianceId:[\\d]+}/owners", method = RequestMethod.GET)
     public ResponseEntity<List<UserResource>> getByOwnersByApplianceId(@PathVariable Long applianceId) {
         Appliance appliance = applianceService.getById(applianceId);
         if (appliance == null) {
