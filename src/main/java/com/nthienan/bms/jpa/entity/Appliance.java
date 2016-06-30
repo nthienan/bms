@@ -1,6 +1,7 @@
 package com.nthienan.bms.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "appliances")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Appliance extends AbstractEntity<Long> {
 
     @Column(nullable = false, unique = true)
@@ -34,6 +36,7 @@ public class Appliance extends AbstractEntity<Long> {
                     @JoinColumn(name = "appliance_id", nullable = false)},
             inverseJoinColumns = {
                     @JoinColumn(name = "user_id", nullable = false)})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<User> owners;
 
     public String getName() {
@@ -60,7 +63,6 @@ public class Appliance extends AbstractEntity<Long> {
         this.ipv4Address = ipv4Address;
     }
 
-    @JsonIgnore
     public Iterable<User> getOwners() {
         return owners;
     }

@@ -1,8 +1,8 @@
 /**
  * Created by nthienan on 16/06/2016.
  */
-bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer',
-    function ($http, $cookies, $httpParamSerializer) {
+bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer', 'linkService', '$q',
+    function ($http, $cookies, $httpParamSerializer, linkService, $q) {
 
         var url = '/api/appliances';
 
@@ -15,6 +15,7 @@ bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer',
         };
 
         this.getAll = function (pageRequest) {
+            var defer = $q.defer();
             var data = {
                 page: pageRequest.page - 1,
                 size: pageRequest.size,
@@ -24,7 +25,23 @@ bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer',
                 method: 'GET',
                 url: url + '?' + $httpParamSerializer(data)
             };
-            return $http(req);
+            $http(req).then(function (response) {
+                if (response.data) {
+                    response.data['_embedded']['applianceResourceList'].forEach(function (appliance) {
+                        if (appliance['_links'] && appliance['_links']['owners']) {
+                            linkService.get(appliance, 'owners').then(function (app) {
+                                app['owners'].forEach(function (user) {
+                                    user['image'] = user['image'] ? user['image'] : '/img/avatar.png';
+                                });
+                            });
+                        }
+                    });
+                }
+                defer.resolve(response);
+            }, function (error) {
+                defer.reject(error);
+            });
+            return defer.promise;
         };
 
         this.create = function (newAppliance) {

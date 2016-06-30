@@ -45,7 +45,13 @@
                 </td>
                 <td md-cell>{{appliance.hostname}}</td>
                 <td md-cell>{{appliance.ipv4Address}}</td>
-                <td md-cell>Unknown</td>
+                <td md-cell>
+                    <md-chips ng-model="appliance.owners" readonly="true" md-max-chips="5">
+                        <md-chip-template>
+                            {{$chip.firstName}}
+                        </md-chip-template>
+                    </md-chips>
+                </td>
             </tr>
             </tbody>
         </table>

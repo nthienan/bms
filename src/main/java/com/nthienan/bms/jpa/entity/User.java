@@ -1,6 +1,7 @@
 package com.nthienan.bms.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,12 +68,12 @@ public class User extends AbstractEntity<Long> implements UserDetails {
     @Type(type = "com.nthienan.bms.hibernate.usertype.AuthorityUserType")
     private Set<Authority> authorities;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Group> groups;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "owners", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Appliance> appliances;
 
     public User() {

@@ -11,6 +11,9 @@ public class Authority implements GrantedAuthority {
 
     private Role role;
 
+    public Authority() {
+    }
+
     public Authority(Role role) {
         this.role = role;
     }

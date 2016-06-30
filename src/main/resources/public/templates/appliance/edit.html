@@ -1,4 +1,4 @@
-<md-dialog add-item-dialog ng-cloak>
+<md-dialog add-item-dialog ng-cloak class="add-dialog">
     <md-dialog-content class="md-dialog-content">
 
         <h2 class="md-title">Update Appliance</h2>
@@ -25,6 +25,22 @@
                 <md-input-container flex>
                     <label>IPv4 Address</label>
                     <input name="ipv4-address" ng-model="appliance.ipv4Address" md-maxlength="15" required>
+                </md-input-container>
+            </div>
+            <div layout="row" class="input-row">
+                <md-input-container flex class="autocomplete">
+                    <label>Owner</label>
+                    <md-contact-chips
+                            ng-model="appliance.owners"
+                            md-contacts="asyncSearch($query)"
+                            md-contact-name="firstName"
+                            md-contact-image="image"
+                            md-contact-email="email"
+                            md-require-match="true"
+                            md-highlight-flags="i"
+                            filter-selected="true"
+                            placeholder="Owner">
+                    </md-contact-chips>
                 </md-input-container>
             </div>
         </form>

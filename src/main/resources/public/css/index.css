@@ -294,3 +294,7 @@ iframe {
 .highlight {
     background-color: yellow;
 }
+
+.md-chips {
+     font-size: inherit;
+}

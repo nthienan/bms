@@ -63,7 +63,7 @@ bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state',
                 locals: {
                     appliance: appliance
                 }
-            }).then($scope.getAll);
+            });
         };
 
         $scope.getAll();

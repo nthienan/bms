@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +59,7 @@ public class ApplianceController {
         return ResponseEntity.ok(applianceAssembler.toResource(appliance));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ApplianceResource> create(@RequestBody Appliance appliance) {
         Appliance result = applianceService.create(appliance);
         return ResponseEntity.status(HttpStatus.CREATED).body(applianceAssembler.toResource(result));

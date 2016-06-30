@@ -1,6 +1,6 @@
 package com.nthienan.bms.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,15 +21,17 @@ import java.util.Set;
 @Table(name = "groups")
 public class Group extends AbstractEntity<Long> {
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_groups", joinColumns = {
             @JoinColumn(name = "groups_id", nullable = false)}, inverseJoinColumns = {
             @JoinColumn(name = "user_id", nullable = false)
     })
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<User> users;
+
     @Column(name = "group_name", nullable = false, unique = true)
     private String groupName;
+
     @Column(name = "descriptsion")
     private String descriptsion;
 
