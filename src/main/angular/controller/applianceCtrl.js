@@ -7,7 +7,7 @@ bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state',
         $scope.selected = [];
         $scope.pageRequest = {
             sort: 'name',
-            size: 5,
+            size: 10,
             page: 1
         };
         $scope.options = {

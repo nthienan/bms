@@ -1,5 +1,6 @@
 /**
- * Created by nthienan on 16/06/2016.
+ * Created on 16/06/2016.
+ * @author nthienan
  */
 bms.service('loginService', ['$http', '$httpParamSerializer', '$cookies', '$q',
     function ($http, $httpParamSerializer, $cookies, $q) {

@@ -1,20 +1,22 @@
-<div class="container">
-    <h1 class="col-sm-12">Login</h1>
-    <div class="col-sm-6">
-
-        <div class="col-sm-12">
-            <label class="col-sm-3">Username</label>
-            <input class="form-control" type="text" ng-model="username"/>
-        </div>
-
-        <div class="col-sm-12">
-            <label class="col-sm-3">Password</label>
-            <input class="form-control" type="password" ng-model="password"/>
-        </div>
-
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="#" ng-click="login()">Login</a>
-        </div>
-
+<div layout="column" layout-align="center center" layout-fill="layout-fill">
+    <div layout="column" class="loginBox md-whiteframe-z1">
+        <md-toolbar>
+            <h2 class="md-toolbar-tools"><span>Welcome To BMS</span></h2>
+        </md-toolbar>
+        <md-content layout="column" class="md-padding">
+            <md-input-container>
+                <label>Username/Email</label>
+                <input type="text" ng-model="username"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input type="password" ng-model="password"/>
+            </md-input-container>
+            <div layout="row" layout-align="center center" style="padding-top:20px;">
+                <md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
+                <div flex="flex"></div>
+                <md-button class="md-primary" md-no-ink="md-no-ink" style="text-transform: capitalize">Register account</md-button>
+            </div>
+        </md-content>
     </div>
 </div>
