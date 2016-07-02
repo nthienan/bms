@@ -1,8 +1,8 @@
 /**
  * Created by nthienan on 27/06/2016.
  */
-bms.service("userService", ['$http', '$httpParamSerializer', '$q',
-    function ($http, $httpParamSerializer, $q) {
+bms.service("userService", ['$http', '$httpParamSerializer', '$q', '$cookies',
+    function ($http, $httpParamSerializer, $q, $cookies) {
 
         var url = '/api/users';
 
@@ -32,4 +32,19 @@ bms.service("userService", ['$http', '$httpParamSerializer', '$q',
                 return defer.promise;
             }
         };
+
+        this.getAuthenticatedUser = function () {
+            var defer = $q.defer();
+            var req = {
+                method: 'GET',
+                url: url + '/authenticated'
+            };
+            $http(req).then(function (response) {
+                response.data['image'] = response.data['image'] ? response.data['image'] : '/img/avatar.png';
+                $cookies.put('logged_user', response.data);
+                defer.resolve(response.data);
+            });
+            return defer.promise;
+        };
+
     }]);

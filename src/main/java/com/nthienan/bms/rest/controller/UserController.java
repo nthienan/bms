@@ -10,6 +10,8 @@ import com.nthienan.bms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,5 +72,11 @@ public class UserController {
             userList = new ArrayList<>();
         }
         return ResponseEntity.ok(userAssembler.toResources(userList));
+    }
+
+    @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
+    public ResponseEntity<?> getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(authentication.getPrincipal());
     }
 }

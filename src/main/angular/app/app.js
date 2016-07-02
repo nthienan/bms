@@ -15,16 +15,11 @@ bms.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
                 url: '/user',
                 templateUrl: 'templates/appliance/list.html',
                 controller: 'applianceCtrl'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'templates/login.html',
-                controller: 'loginCtrl'
             });
         $urlRouterProvider.otherwise('/appliance');
 
-        $httpProvider.interceptors.push(['$q', '$injector', '$httpParamSerializer', '$cookies',
-            function ($q, $injector, $httpParamSerializer, $cookies) {
+        $httpProvider.interceptors.push(['$q', '$injector', '$httpParamSerializer', '$cookies', '$window',
+            function ($q, $injector, $httpParamSerializer, $cookies, $window) {
                 return {
                     'request': function (config) {
                         if (config.url && config.url.endsWith('.html')) {
@@ -70,12 +65,12 @@ bms.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
                                         defer.reject(error1);
                                     });
                                 } else {
-                                    $injector.get("$state").go('login');
+                                    $window.location.href = '/welcome.html';
                                     defer.reject();
                                 }
                             }, function (error) {
                                 // token retry failed, redirect so user can login again
-                                $injector.get("$state").go('login');
+                                $window.location.href = '/welcome.html';
                                 defer.reject(error);
                             });
                             return defer.promise; // return the deferred promise

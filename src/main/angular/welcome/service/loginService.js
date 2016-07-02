@@ -2,7 +2,7 @@
  * Created on 16/06/2016.
  * @author nthienan
  */
-bms.service('loginService', ['$http', '$httpParamSerializer', '$cookies', '$q',
+welcome.service('loginService', ['$http', '$httpParamSerializer', '$cookies', '$q',
     function ($http, $httpParamSerializer, $cookies, $q) {
         var clientCredential = 'bms:s3cr3t';
         var url = '/oauth/token';

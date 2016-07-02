@@ -2,8 +2,8 @@
  * Created on 15/06/2016.
  * @author nthienan
  */
-bms.controller('applianceCtrl', ['$scope', '$cookies', 'loginService', '$state', 'applianceService', '$log', '$mdDialog',
-    function ($scope, $cookies, loginService, $state, applianceService, $log, $mdDialog) {
+bms.controller('applianceCtrl', ['$scope', '$cookies', '$state', 'applianceService', '$log', '$mdDialog',
+    function ($scope, $cookies, $state, applianceService, $log, $mdDialog) {
         $scope.selected = [];
         $scope.pageRequest = {
             sort: 'name',

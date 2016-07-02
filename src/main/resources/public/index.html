@@ -30,14 +30,28 @@
     <!-- app -->
     <script type="text/javascript" src="lib/app/app.min.js"></script>
 </head>
-<body layout="column">
-<md-toolbar class="md-whiteframe-z1-add">
+<body layout="column" ng-cloak>
+<md-toolbar class="md-whiteframe-z1-add" ng-controller="mainCtrl">
     <div class="md-toolbar-tools">
         <h2 style="margin-right: 20px"><strong>BMS</strong></h2>
         <md-button ui-sref="appliance">Appliance</md-button>
         <md-button ui-sref="user">User</md-button>
         <span flex></span>
-
+        <img class="img-circle img-responsive" ng-src="{{$root.loggedUser.image}}" style="height: 40px">
+        <md-menu md-offset="0 60">
+            <md-button class="capitalize" ng-click="$mdOpenMenu()" aria-label="Open menu">
+                <span>{{$root.loggedUser.firstName}}</span>
+                <i class="material-icons">keyboard_arrow_down</i>
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button ng-click="$mdCloseMenu()">Profile</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="logout()">Log out</md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
     </div>
 </md-toolbar>
 <div class="content">

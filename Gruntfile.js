@@ -16,10 +16,17 @@ module.exports = function(grunt) {
             },
             app: {
                 src: [
-                    'src/main/angular/app.js',
-                    'src/main/angular/**/*.js'
+                    'src/main/angular/app/app.js',
+                    'src/main/angular/app/**/*.js'
                 ],
                 dest: '<%= distFolder %>/app.js'
+            },
+            welcome: {
+                src: [
+                    'src/main/angular/welcome/welcome.js',
+                    'src/main/angular/welcome/**/*.js'
+                ],
+                dest: '<%= distFolder %>/welcome.js'
             }
         },
 
@@ -30,6 +37,11 @@ module.exports = function(grunt) {
             app: {
                 files: {
                     '<%= distFolder %>/app.min.js': '<%= distFolder %>/app.js'
+                }
+            },
+            welcome: {
+                files: {
+                    '<%= distFolder %>/welcome.min.js': '<%= distFolder %>/welcome.js'
                 }
             }
         },
