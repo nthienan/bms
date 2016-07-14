@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.acls.AclPermissionEvaluator;
+import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 
 /**
  * Created on 10/06/2016.
@@ -28,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Lazy
-    // Note: Important you should refe http://stackoverflow.com/questions/24598959/spring-boot-security-cannot-customize-security-when-running-on-embedded-tomc/24641807#24641807
+    // Note: Important you should refer http://stackoverflow.com/questions/24598959/spring-boot-security-cannot-customize-security-when-running-on-embedded-tomc/24641807#24641807
     private UserDetailsService userDetailsService;
 
     @Bean
@@ -64,13 +67,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
+        @Autowired
+        private MutableAclService mutableAclService;
+
+        @Autowired
+        private RoleHierarchy roleHierarchy;
+
         public GlobalSecurityConfiguration() {
             super();
         }
 
         @Override
         protected MethodSecurityExpressionHandler createExpressionHandler() {
-            return new OAuth2MethodSecurityExpressionHandler();
+            DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+            expressionHandler.setPermissionEvaluator(new AclPermissionEvaluator(mutableAclService));
+            expressionHandler.setRoleHierarchy(roleHierarchy);
+            return expressionHandler;
         }
 
     }

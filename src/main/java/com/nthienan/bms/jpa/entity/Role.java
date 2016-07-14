@@ -1,5 +1,8 @@
 package com.nthienan.bms.jpa.entity;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EnumSet;
 
 /**
@@ -36,32 +39,48 @@ public enum Role {
         return name;
     }
 
+    @NotNull
     public static EnumSet<Role> getAllRoles() {
         return EnumSet.range(ANONYMOUS, ROOT);
     }
 
+    @NotNull
+    public static String getRoleHierarchy() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ROOT).append(" > ");
+        sb.append(ADMIN).append(" > ");
+        sb.append(SUPER_USER).append(" > ");
+        sb.append(USER).append(" > ");
+        sb.append(ANONYMOUS);
+        return sb.toString();
+    }
+
+    @Contract("null -> true")
     public boolean greaterThan(Role role) {
         if (role == null)
             return true;
-        return (this.level > role.getLevel());
+        return this.level > role.getLevel();
     }
 
+    @Contract("null -> true")
     public boolean greaterThanOrEqual(Role role) {
         if (role == null)
             return true;
-        return (this.level >= role.getLevel());
+        return this.level >= role.getLevel();
     }
 
+    @Contract("null -> false")
     public boolean lessThan(Role role) {
         if (role == null)
             return false;
-        return (this.level < role.getLevel());
+        return this.level < role.getLevel();
     }
 
+    @Contract("null -> false")
     public boolean lessThanOrEqual(Role role) {
         if (role == null)
             return false;
-        return (this.level <= role.getLevel());
+        return this.level <= role.getLevel();
     }
 
     @Override

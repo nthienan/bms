@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "appliances")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Appliance extends AbstractEntity<Long> {
+public class Appliance extends AbstractSecuredEntity<Long> {
 
     @Column(nullable = false, unique = true)
     private String name;
