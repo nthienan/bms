@@ -23,6 +23,7 @@ dependencies {
     compile 'org.springframework:spring-context-support'
     compile 'org.springframework:spring-jdbc'
     compile 'org.springframework.hateoas:spring-hateoas'
+    compile 'org.springframework.data:spring-data-rest-webmvc'
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'mysql:mysql-connector-java'
     compile 'commons-lang:commons-lang:2.6'
@@ -112,6 +113,12 @@ task npmClean(type: Delete) {
     group 'npm'
     description 'Clean npm modules'
     delete 'node_modules'
+}
+
+task bowerClean(type: Delete) {
+    group 'npm'
+    description 'Clean bower components'
+    delete 'bower_components'
 }
 
 task npmInstall(type: Exec) {

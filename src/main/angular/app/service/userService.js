@@ -19,7 +19,7 @@ bms.service("userService", ['$http', '$httpParamSerializer', '$q', '$cookies',
             if (query) {
                 var req = {
                     method: 'GET',
-                    url: url + '/search?' + $httpParamSerializer({query: query})
+                    url: url + '/search/findAll?' + $httpParamSerializer({query: query})
                 };
                 $http(req).then(function (response) {
                     response.data.forEach(function (user) {
@@ -37,7 +37,7 @@ bms.service("userService", ['$http', '$httpParamSerializer', '$q', '$cookies',
             var defer = $q.defer();
             var req = {
                 method: 'GET',
-                url: url + '/authenticated'
+                url: url + '/search/authenticated'
             };
             $http(req).then(function (response) {
                 response.data['image'] = response.data['image'] ? response.data['image'] : '/img/avatar.png';

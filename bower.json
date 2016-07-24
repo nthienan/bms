@@ -20,36 +20,36 @@
     "path": "src/main/resources/public/lib",
     "sources": {
       "jquery": [
-        "build/jslibs/jquery/dist/jquery.min.js"
+        "bower_components/jquery/dist/jquery.min.js"
       ],
       "angular": [
-        "build/jslibs/angular/angular.min.js"
+        "bower_components/angular/angular.min.js"
       ],
       "angular-route": [
-        "build/jslibs/angular-route/angular-route.min.js"
+        "bower_components/angular-route/angular-route.min.js"
       ],
       "angular-animate": [
-        "build/jslibs/angular-animate/angular-animate.min.js"
+        "bower_components/angular-animate/angular-animate.min.js"
       ],
       "angular-cookies": [
-        "build/jslibs/angular-cookies/angular-cookies.min.js"
+        "bower_components/angular-cookies/angular-cookies.min.js"
       ],
       "angular-sanitize": [
-        "build/jslibs/angular-sanitize/angular-sanitize.min.js"
+        "bower_components/angular-sanitize/angular-sanitize.min.js"
       ],
       "angular-ui-router": [
-        "build/jslibs/angular-ui-router/release/angular-ui-router.min.js"
+        "bower_components/angular-ui-router/release/angular-ui-router.min.js"
       ],
       "angular-aria": [
-        "build/jslibs/angular-aria/angular-aria.min.js"
+        "bower_components/angular-aria/angular-aria.min.js"
       ],
       "angular-material": [
-        "build/jslibs/angular-material/angular-material.min.js",
-        "build/jslibs/angular-material/angular-material.min.css"
+        "bower_components/angular-material/angular-material.min.js",
+        "bower_components/angular-material/angular-material.min.css"
       ],
       "angular-material-data-table": [
-        "build/jslibs/angular-material-data-table/dist/md-data-table.min.js",
-        "build/jslibs/angular-material-data-table/dist/md-data-table.min.css"
+        "bower_components/angular-material-data-table/dist/md-data-table.min.js",
+        "bower_components/angular-material-data-table/dist/md-data-table.min.css"
       ]
     }
   },

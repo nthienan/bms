@@ -31,7 +31,7 @@
                     <md-input-container flex class="autocomplete">
                         <label>Owner</label>
                         <md-contact-chips
-                                ng-model="appliance.owners"
+                                ng-model="appliance.owners._embedded.users"
                                 md-contacts="asyncSearch($query)"
                                 md-contact-name="firstName"
                                 md-contact-image="image"

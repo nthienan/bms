@@ -1,5 +1,4 @@
 {
-	"directory": "build/jslibs",
 	"json": "bower.json",
 	"proxy": "http://proxy.tma.com.vn:8080",
 	"https-proxy":"http://proxy.tma.com.vn:8080"

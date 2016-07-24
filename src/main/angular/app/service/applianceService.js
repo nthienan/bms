@@ -27,10 +27,10 @@ bms.service("applianceService", ['$http', '$cookies', '$httpParamSerializer', 'l
             };
             $http(req).then(function (response) {
                 if (response.data) {
-                    response.data['_embedded']['applianceResourceList'].forEach(function (appliance) {
+                    response.data['_embedded']['appliances'].forEach(function (appliance) {
                         if (appliance['_links'] && appliance['_links']['owners']) {
                             linkService.get(appliance, 'owners').then(function (app) {
-                                app['owners'].forEach(function (user) {
+                                app['owners']['_embedded']['users'].forEach(function (user) {
                                     user['image'] = user['image'] ? user['image'] : '/img/avatar.png';
                                 });
                             });

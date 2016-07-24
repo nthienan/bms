@@ -1,7 +1,7 @@
 package com.nthienan.bms.hibernate.usertype;
 
-import com.nthienan.bms.jpa.entity.Authority;
-import com.nthienan.bms.jpa.entity.Role;
+import com.nthienan.bms.user.model.Authority;
+import com.nthienan.bms.user.model.Role;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
