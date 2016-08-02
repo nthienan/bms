@@ -83,46 +83,15 @@ task jsClean(type: Delete) {
 }
 clean.dependsOn jsClean
 
-
-task angularProduction(type: Exec) {
-    group 'angular'
-    description 'Concat, minify and copy to web static resource for all angular code for production.'
-    commandLine 'cmd', '/c', 'grunt', 'production'
-}
-bootRepackage.dependsOn angularProduction
-jar.dependsOn angularProduction
-war.dependsOn angularProduction
-build.dependsOn angularProduction
-jsUpdate.dependsOn angularProduction
-
-task angularDev(type: Exec) {
-    group 'angular'
-    description 'Concat and copy to web static resource for all angular code for development.'
-    commandLine 'cmd', '/c', 'grunt', 'dev'
-}
-bootRun.dependsOn angularDev
-
-task angularClean(type: Exec) {
-    group 'angular'
-    description 'Clean all angular code in web static resources'
-    commandLine 'cmd', '/c', 'grunt', 'clean'
-}
-clean.dependsOn angularClean
-
 task npmClean(type: Delete) {
     group 'npm'
     description 'Clean npm modules'
     delete 'node_modules'
 }
 
-task bowerClean(type: Delete) {
-    group 'npm'
-    description 'Clean bower components'
-    delete 'bower_components'
-}
-
 task npmInstall(type: Exec) {
     group 'npm'
     description 'Install npm modules'
+    workingDir './react'
     commandLine 'cmd', '/c', 'npm', 'install'
 }
