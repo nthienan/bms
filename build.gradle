@@ -68,13 +68,6 @@ buildscript {
     }
 }
 
-task reactClean(type: Delete) {
-    group 'react'
-    description 'Clean react dir.'
-    delete 'src/main/resources/public'
-}
-clean.dependsOn reactClean
-
 task reactProduction(type: Exec) {
     group 'react'
     description 'Build React in production mode'
@@ -86,6 +79,14 @@ bootRepackage.dependsOn reactProduction
 build.dependsOn reactProduction
 war.dependsOn reactProduction
 jar.dependsOn reactProduction
+
+task reactClean(type: Delete) {
+    group 'react'
+    description 'Clean react dir.'
+    delete 'src/main/resources/public'
+}
+clean.dependsOn reactClean
+reactProduction.dependsOn reactClean
 
 task npmClean(type: Delete) {
     group 'npm'
