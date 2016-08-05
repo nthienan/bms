@@ -68,25 +68,29 @@ buildscript {
     }
 }
 
-task jsUpdate(type: Exec) {
-    group 'javascript'
-    description 'Copy Javascript libraries to static resources directory.'
-    commandLine 'cmd', '/c', 'npm', 'install'
+task reactClean(type: Delete) {
+    group 'react'
+    description 'Clean react dir.'
+    delete 'src/main/resources/public'
 }
-//bootRun.dependsOn jsUpdate
-build.dependsOn jsUpdate
+clean.dependsOn reactClean
 
-task jsClean(type: Delete) {
-    group 'javascript'
-    description 'Clean Javascript libraries.'
-    delete 'src/main/resources/public/lib'
+task reactProduction(type: Exec) {
+    group 'react'
+    description 'Build React in production mode'
+    workingDir './react'
+    commandLine 'cmd', '/c', 'npm', 'run', 'prod'
 }
-clean.dependsOn jsClean
+bootRun.dependsOn reactProduction
+bootRepackage.dependsOn reactProduction
+build.dependsOn reactProduction
+war.dependsOn reactProduction
+jar.dependsOn reactProduction
 
 task npmClean(type: Delete) {
     group 'npm'
     description 'Clean npm modules'
-    delete 'node_modules'
+    delete 'react/node_modules'
 }
 
 task npmInstall(type: Exec) {
