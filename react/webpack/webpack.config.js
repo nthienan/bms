@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (options) => {
   const ExtractSASS = new ExtractTextPlugin(`css/${options.cssFileName}`);
+  const __DEV__ = options.isProduction;
 
   const webpackConfig = {
     devtool: options.devtool,
@@ -25,7 +26,29 @@ module.exports = (options) => {
         test: /.jsx?$/,
         include: Path.join(__dirname, '../src'),
         loader: 'babel',
-      }],
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+        {
+          test: /\.txt$/,
+          loader: 'raw-loader',
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+          loader: 'url-loader',
+          query: {
+            name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+            limit: 10000,
+          },
+        },
+        {
+          test: /\.(eot|ttf|wav|mp3)$/,
+          loader: 'file-loader',
+          query: {
+            name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          },
+        }],
     },
     plugins: [
       new Webpack.DefinePlugin({
