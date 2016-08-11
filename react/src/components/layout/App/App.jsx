@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
-import Header from './header/Header';
-import Footer from './footer/Footer'
-import LeftNav from './leftnav/LeftNav'
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer'
+import LeftNav from '../LeftNav/LeftNav'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends React.Component {
@@ -19,7 +19,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       leftNav: {
-        open: true
+        open: false
       }
     };
   }
@@ -30,12 +30,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="root-container">
+      <div className="ap-app">
         <MuiThemeProvider>
           <div>
             <Header title={this.props.title} onLeftButtonClick={this.onMenuItemClick}/>
             <LeftNav title={this.props.title} open={this.state.leftNav.open} onMenuItemClick={this.onMenuItemClick}/>
-            {this.props.children}
+            <div className="container">
+              {this.props.children}
+            </div>
             <Footer/>
           </div>
         </MuiThemeProvider>

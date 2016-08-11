@@ -1,8 +1,9 @@
 @import "variables";
 @import "global";
-@import "header/Header";
-@import "footer/Footer";
-@import "appliance/Appliance";
-@import "user/User";
-@import "leftnav/LeftNav";
-@import "table/Table";
+@import "layout/App/App";
+@import "layout/Header/Header";
+@import "layout/Footer/Footer";
+@import "container/Appliance/Appliance";
+@import "container/User/User";
+@import "layout/LeftNav/LeftNav";
+@import "ui/DataTable/DataTable";

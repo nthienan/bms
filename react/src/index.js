@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
-import App from './components/App';
-import Appliance from './components/appliance/Appliance';
-import User from './components/user/User';
+import App from './components/layout/App/App';
+import Appliance from './components/container/Appliance/Appliance';
+import User from './components/container/User/User';
 import reducers from './reducers/index';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -13,8 +13,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
+// Needed for onTouchTap refer http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
 ReactDOM.render(
