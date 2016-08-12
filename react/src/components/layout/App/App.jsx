@@ -38,7 +38,6 @@ class App extends React.Component {
             <div className="container">
               {this.props.children}
             </div>
-            <Footer/>
           </div>
         </MuiThemeProvider>
       </div>
