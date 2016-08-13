@@ -1,13 +1,15 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes} from 'react';
 import {Card} from 'material-ui/Card';
-import DataTableAction from './DataTableAction'
-import DataTableBody from './DataTableBody'
+import DataTableTitle from './DataTableTitle';
+import DataTableBody from './DataTableBody';
+import CrudButtons from '../Button/CrudButtons/CrudButtons';
 
 class DataTable extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    maxHeight: PropTypes.number
   };
 
   constructor(props) {
@@ -18,8 +20,12 @@ class DataTable extends React.Component {
     return (
       <div className="da-datatable">
         <Card>
-          <DataTableAction title={this.props.title}/>
-          <DataTableBody data={this.props.data}/>
+          <DataTableTitle title={this.props.title}>
+            <div className="right-corner-action">
+              <CrudButtons/>
+            </div>
+          </DataTableTitle>
+          <DataTableBody data={this.props.data} maxHeight={this.props.maxHeight}/>
         </Card>
       </div>
     );

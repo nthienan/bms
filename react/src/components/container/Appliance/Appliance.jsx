@@ -12,7 +12,8 @@ class Appliance extends React.Component {
           name: 'John Smith',
           gender: 'Male',
           status: 'Employed'
-        },
+        }
+        ,
         {
           id: 2,
           name: 'Randal White',
@@ -81,7 +82,7 @@ class Appliance extends React.Component {
   render() {
     return (
       <div className="ap-appliance">
-        <DataTable data={this.state.data} title="Appliances"/>
+        <DataTable data={this.state.data} title="Appliances" />
       </div>
     );
   }

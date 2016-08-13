@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes} from 'react';
 import {
   Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn
 }
   from 'material-ui/Table';
-import lodash from 'lodash'
+import lodash from 'lodash';
 
 class DataTableBody extends React.Component {
 
@@ -19,7 +19,8 @@ class DataTableBody extends React.Component {
     enableSelectAll: PropTypes.bool,
     deselectOnClickaway: PropTypes.bool,
     showCheckboxes: PropTypes.bool,
-    rowHeight: PropTypes.number
+    rowHeight: PropTypes.number,
+    maxHeight: PropTypes.number
   };
 
   static defaultProps = {
@@ -32,7 +33,8 @@ class DataTableBody extends React.Component {
     enableSelectAll: true,
     deselectOnClickaway: false,
     showCheckboxes: true,
-    rowHeight: 48
+    rowHeight: 48,
+    maxHeight: 550
   };
 
   constructor(props) {
@@ -40,9 +42,13 @@ class DataTableBody extends React.Component {
   }
 
   componentWillMount() {
-    var height = (this.props.rowHeight * (this.props.data.length + 1)) + 'px';
+    var height = (this.props.rowHeight * (this.props.data.length + 1));
+    if (height > this.props.maxHeight) {
+      height = this.props.maxHeight;
+    }
+    var heightAsStr = height + 'px';
     var numberOfColumn = Object.keys(this.props.data[0]).length + '';
-    this.setState({height: height, numberOfColumn: numberOfColumn});
+    this.setState({height: heightAsStr, numberOfColumn: numberOfColumn});
   }
 
   renderHeaderRow = () => {
