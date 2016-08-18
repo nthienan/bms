@@ -9,7 +9,8 @@ class DataTable extends React.Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    maxHeight: PropTypes.number
+    maxHeight: PropTypes.number,
+    onRowSelected: PropTypes.func
   };
 
   constructor(props) {
@@ -25,7 +26,7 @@ class DataTable extends React.Component {
               <CrudButtons/>
             </div>
           </DataTableTitle>
-          <DataTableBody data={this.props.data} maxHeight={this.props.maxHeight}/>
+          <DataTableBody data={this.props.data} maxHeight={this.props.maxHeight} onRowSelected={this.props.onRowSelected}/>
         </Card>
       </div>
     );

@@ -1,91 +1,39 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {selectedAppliance} from '../../../actions/applaince';
 
 class Appliance extends React.Component {
 
+  static propTypes = {
+    appliances: PropTypes.array.isRequired,
+    selectedAppliance: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      data: [
-        {
-          id: 1,
-          name: 'John Smith',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 2,
-          name: 'Randal White',
-          gender: 'Male',
-          status: 'Unemployed'
-        }
-        ,
-        {
-          id: 3,
-          name: 'Stephanie Sanders',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 4,
-          name: 'Steve Brown',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 5,
-          name: 'Joyce Whitten',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 6,
-          name: 'Samuel Roberts',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 7,
-          name: 'Adam Moore',
-          gender: 'Female',
-          status: 'Employed'
-        },
-        {
-          id: 8,
-          name: 'Samuel Roberts',
-          gender: 'Male',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 9,
-          name: 'Adam Moore',
-          gender: 'Female',
-          status: 'Employed'
-        }
-        ,
-        {
-          id: 10,
-          name: 'Adam Moore',
-          gender: 'Female',
-          status: 'Employed'
-        }
-      ]
-    };
   }
 
   render() {
     return (
       <div className="ap-appliance">
-        <DataTable data={this.state.data} title="Appliances" />
+        <DataTable data={this.props.appliances} title="Appliances" onRowSelected={this.props.selectedAppliance}/>
       </div>
     );
   }
 }
 
-export default Appliance;
+function mapStateToProps(state) {
+  return {
+    appliances: state.appliances
+  };
+}
+
+function mappDispatchToProps(dispatch) {
+  return bindActionCreators({
+    selectedAppliance: selectedAppliance
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mappDispatchToProps)(Appliance);

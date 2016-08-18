@@ -20,7 +20,8 @@ class DataTableBody extends React.Component {
     deselectOnClickaway: PropTypes.bool,
     showCheckboxes: PropTypes.bool,
     rowHeight: PropTypes.number,
-    maxHeight: PropTypes.number
+    maxHeight: PropTypes.number,
+    onRowSelected: PropTypes.func
   };
 
   static defaultProps = {
@@ -55,20 +56,32 @@ class DataTableBody extends React.Component {
     return (
       <TableRow>
         {Object.keys(this.props.data[0]).map((key, index) => (
-          <TableHeaderColumn key={index} tooltip={lodash.startCase(key)}>{lodash.startCase(key)}</TableHeaderColumn>
+          this.renderHeaderColumn(key, index)
         ))}
       </TableRow>
     );
+  };
+
+  renderHeaderColumn = (key, index) => {
+    if (key !== 'selected') {
+      return <TableHeaderColumn key={index} tooltip={lodash.startCase(key)}>{lodash.startCase(key)}</TableHeaderColumn>;
+    }
   };
 
   renderRow = (row, index) => {
     return (
       <TableRow key={index} selected={row.selected}>
         {Object.keys(row).map((key, i) => (
-          <TableRowColumn key={i}>{row[key]}</TableRowColumn>
+          this.renderColumn(row, key, index)
         ))}
       </TableRow>
     );
+  };
+
+  renderColumn = (row, key, index) => {
+    if (key !== 'selected') {
+      return <TableRowColumn key={index}>{row[key]}</TableRowColumn>;
+    }
   };
 
   render() {
@@ -79,6 +92,7 @@ class DataTableBody extends React.Component {
         fixedFooter={this.props.fixedFooter}
         selectable={this.props.selectable}
         multiSelectable={this.props.multiSelectable}
+        onRowSelection={this.props.onRowSelected}
       >
         <TableHeader
           displaySelectAll={this.props.showCheckboxes}
