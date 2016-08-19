@@ -1,4 +1,4 @@
-# Starter for Express, React, Redux, SCSS applications
+# BMS Application
 
 ## Features
 
@@ -53,6 +53,14 @@ Test watch
 
 ````
 npm run test:watch
+````
+
+### Document
+
+Generate document
+
+````
+npm run esdoc
 ````
 
 ### Linting
