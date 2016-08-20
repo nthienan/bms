@@ -5,11 +5,10 @@
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
     "prod": "eslint src test webpack && webpack --config ./webpack/webpack-prod.config.js --colors",
-    "start": "PORT=8080 pm2 start ./server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
     "lint": "eslint src test webpack",
-    "esdoc": "esdoc -c esdoc.json"
+    "doc": "esdoc -c esdoc.json"
   },
   "keywords": [
     "bms"

@@ -9,6 +9,7 @@
 - React, Redux configuration
 - Testing environment configured with Mocha and Chai
 - Linting with Airbnb eslint configuration
+- Using ESDoc to automatic generate document
 
 ## Getting Started
 
@@ -32,15 +33,6 @@ Build for production
 npm run prod
 ````
 
-Start production server
-
-````
-npm run start
-````
-
-Note: I'm using pm2 for production server, you should install it on server via 'npm install pm2 -g'.
-if you don't want to use pm2, just change pm2 with node in package.json file in scripts section.
-
 ### Testing
 
 Run test once
@@ -60,7 +52,7 @@ npm run test:watch
 Generate document
 
 ````
-npm run esdoc
+npm run doc
 ````
 
 ### Linting
