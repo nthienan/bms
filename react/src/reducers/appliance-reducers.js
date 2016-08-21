@@ -1,3 +1,5 @@
+import ActionTypes from '../actions/action-types';
+
 const initState = {
   appliances: [
     {
@@ -56,18 +58,19 @@ const initState = {
 
 export default function (state = initState, action) {
   switch (action.type) {
-    case 'LOADING_APPLIANCE':
+    case ActionTypes.APPLIANCE.LOADING:
       return {
         appliances: initState
       };
-    case 'SELECTED_APPLIANCE':
+
+    case ActionTypes.APPLIANCE.SELECTED:
       let newAppliances = [...state];
       let selectedAppliances = action.payload;
       if (selectedAppliances === 'all') {
         newAppliances.map((appliance, index) => {
-            newAppliances[index] = {...newAppliances[index], selected: true};
+          newAppliances[index] = {...newAppliances[index], selected: true};
         });
-      } else if(selectedAppliances === 'none') {
+      } else if (selectedAppliances === 'none') {
         newAppliances.map((appliance, index) => {
           newAppliances[index] = {...newAppliances[index], selected: false};
         });
@@ -81,6 +84,12 @@ export default function (state = initState, action) {
         });
       }
       return newAppliances;
+
+    case ActionTypes.APPLIANCE.DELETE_SELECTED:
+      return state.filter((app) => {
+          return !app.selected;
+      });
+
     default:
       return state.appliances;
   }

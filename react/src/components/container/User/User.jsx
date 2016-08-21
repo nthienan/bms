@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * User container
+ */
 class User extends React.Component {
 
   constructor(props) {

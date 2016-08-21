@@ -9,8 +9,9 @@ import User from './components/container/User/User';
 import reducers from './reducers/index';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import confirmMiddleware from './middlewares/confirm'
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const createStoreWithMiddleware = applyMiddleware(confirmMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
 // Needed for onTouchTap refer http://stackoverflow.com/a/34015469/988941

@@ -1,8 +1,13 @@
 import React, {PropTypes} from 'react';
 import {
-  Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn
-}
-  from 'material-ui/Table';
+  Table,
+  TableBody,
+  TableFooter,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn
+} from 'material-ui/Table';
 import lodash from 'lodash';
 
 class DataTableBody extends React.Component {
@@ -38,10 +43,17 @@ class DataTableBody extends React.Component {
     maxHeight: 550
   };
 
+  /**
+   * Default constructor
+   * @param {Object} props
+   */
   constructor(props) {
     super(props);
   }
 
+  /**
+   * Calculate height of component before rendering.
+   */
   componentWillMount() {
     var height = (this.props.rowHeight * (this.props.data.length + 1));
     if (height > this.props.maxHeight) {
@@ -52,7 +64,11 @@ class DataTableBody extends React.Component {
     this.setState({height: heightAsStr, numberOfColumn: numberOfColumn});
   }
 
-  renderHeaderRow = () => {
+  /**
+   * Render header row base on first element of data properties
+   * @returns {XML}
+   */
+  renderHeaderRow() {
     return (
       <TableRow>
         {Object.keys(this.props.data[0]).map((key, index) => (
@@ -60,15 +76,21 @@ class DataTableBody extends React.Component {
         ))}
       </TableRow>
     );
-  };
+  }
 
-  renderHeaderColumn = (key, index) => {
+  /**
+   * Render header column base on properties of first element of data
+   * @param {String} key
+   * @param {Number} index
+   * @returns {TableHeaderColumn} TableHeaderColumn
+   */
+  renderHeaderColumn(key, index) {
     if (key !== 'selected') {
       return <TableHeaderColumn key={index} tooltip={lodash.startCase(key)}>{lodash.startCase(key)}</TableHeaderColumn>;
     }
-  };
+  }
 
-  renderRow = (row, index) => {
+  renderRow(row, index) {
     return (
       <TableRow key={index} selected={row.selected}>
         {Object.keys(row).map((key, i) => (
@@ -76,14 +98,25 @@ class DataTableBody extends React.Component {
         ))}
       </TableRow>
     );
-  };
+  }
 
-  renderColumn = (row, key, index) => {
+  /**
+   * Render columns for each row
+   * @param {Object} row row data
+   * @param {String} key key of column
+   * @param {Number} index index of column
+   * @returns {XML}
+   */
+  renderColumn(row, key, index) {
     if (key !== 'selected') {
       return <TableRowColumn key={index}>{row[key]}</TableRowColumn>;
     }
-  };
+  }
 
+  /**
+   * Render component
+   * @returns {XML}
+   */
   render() {
     return (
       <Table

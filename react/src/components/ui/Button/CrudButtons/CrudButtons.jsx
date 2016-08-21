@@ -7,7 +7,12 @@ class CrudButtons extends React.Component {
     hideSearch: PropTypes.bool,
     hideReload: PropTypes.bool,
     hideAdd: PropTypes.bool,
-    hideRemove: PropTypes.bool
+    hideRemove: PropTypes.bool,
+    touch: PropTypes.bool,
+    onSearch: PropTypes.func,
+    onReload: PropTypes.func,
+    onAdd: PropTypes.func,
+    onRemove: PropTypes.func
   };
 
   static defaultProps = {
@@ -15,6 +20,7 @@ class CrudButtons extends React.Component {
     hideReload: false,
     hideAdd: false,
     hideRemove: true,
+    touch: true
   };
 
   constructor(props) {
@@ -24,17 +30,22 @@ class CrudButtons extends React.Component {
   render() {
     return (
       <div className="cr-crud-buttons">
-        <IconButton iconClassName="material-icons" tooltip="Search"
+        <IconButton iconClassName="material-icons" tooltip="Search" touch={this.props.touch}
                     className={this.props.hideSearch ? 'hide' : null}
+                    onClick={this.props.onSearch}
+
         >search</IconButton>
-        <IconButton iconClassName="material-icons" tooltip="Reload"
+        <IconButton iconClassName="material-icons" tooltip="Reload" touch={this.props.touch}
                     className={this.props.hideReload ? 'hide' : null}
+                    onClick={this.props.onReload}
         >cached</IconButton>
-        <IconButton iconClassName="material-icons" tooltip="Add"
+        <IconButton iconClassName="material-icons" tooltip="Add" touch={this.props.touch}
                     className={this.props.hideAdd ? 'hide' : null}
+                    onClick={this.props.onAdd}
         >library_add</IconButton>
-        <IconButton iconClassName="material-icons" tooltip="Remove"
+        <IconButton iconClassName="material-icons" tooltip="Remove" touch={this.props.touch}
                     className={this.props.hideRemove ? 'hide' : null}
+                    onClick={this.props.onRemove}
         >delete</IconButton>
       </div>
     );
