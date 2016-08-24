@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectedAppliance, deleteSelectedAppliance} from '../../../actions/applaince';
+import {selectedAppliance, deleteSelectedAppliance} from '../../../actions/applaince-actions';
 
 class Appliance extends React.Component {
 

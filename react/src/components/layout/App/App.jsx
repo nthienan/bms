@@ -3,12 +3,15 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer'
 import LeftNav from '../LeftNav/LeftNav'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import ModalRoot from '../../container/ModalRoot/ModalRoot'
+import {connect} from 'react-redux';
 
 class App extends React.Component {
 
   static propTypes = {
     children: PropTypes.object,
-    title: PropTypes.string
+    title: PropTypes.string,
+    modal: PropTypes.object
   };
 
   static defaultProps = {
@@ -38,6 +41,7 @@ class App extends React.Component {
             <div className="container">
               {this.props.children}
             </div>
+            <ModalRoot type={this.props.modal.type} props={this.props.modal.props} callback={this.props.modal.callback}/>
           </div>
         </MuiThemeProvider>
       </div>
@@ -45,4 +49,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    modal: state.modal
+  };
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import applianceReducer from './appliance-reducers'
+import applianceReducer from './appliance-reducer'
+import modalReducer from './modal-reduxcer'
 
 const rootReducer = combineReducers({
-  appliances: applianceReducer
+  appliances: applianceReducer,
+  modal: modalReducer
 });
 
 export default rootReducer;

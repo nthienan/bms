@@ -1,60 +1,58 @@
 import ActionTypes from '../actions/action-types';
 
-const initState = {
-  appliances: [
-    {
-      id: 1,
-      name: 'John Smith',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 2,
-      name: 'Randal White',
-      gender: 'Male',
-      status: 'Unemployed'
-    }, {
-      id: 3,
-      name: 'Stephanie Sanders',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 4,
-      name: 'Steve Brown',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 5,
-      name: 'Joyce Whitten',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 6,
-      name: 'Samuel Roberts',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 7,
-      name: 'Adam Moore',
-      gender: 'Female',
-      status: 'Employed'
-    }, {
-      id: 8,
-      name: 'Samuel Roberts',
-      gender: 'Male',
-      status: 'Employed'
-    }, {
-      id: 9,
-      name: 'Adam Moore',
-      gender: 'Female',
-      status: 'Employed'
-    }, {
-      id: 10,
-      name: 'Adam Moore',
-      gender: 'Female',
-      status: 'Employed'
-    }
-  ]
-};
+const initState = [
+  {
+    id: 1,
+    name: 'John Smith',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 2,
+    name: 'Randal White',
+    gender: 'Male',
+    status: 'Unemployed'
+  }, {
+    id: 3,
+    name: 'Stephanie Sanders',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 4,
+    name: 'Steve Brown',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 5,
+    name: 'Joyce Whitten',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 6,
+    name: 'Samuel Roberts',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 7,
+    name: 'Adam Moore',
+    gender: 'Female',
+    status: 'Employed'
+  }, {
+    id: 8,
+    name: 'Samuel Roberts',
+    gender: 'Male',
+    status: 'Employed'
+  }, {
+    id: 9,
+    name: 'Adam Moore',
+    gender: 'Female',
+    status: 'Employed'
+  }, {
+    id: 10,
+    name: 'Adam Moore',
+    gender: 'Female',
+    status: 'Employed'
+  }
+];
 
 export default function (state = initState, action) {
   switch (action.type) {
@@ -87,10 +85,10 @@ export default function (state = initState, action) {
 
     case ActionTypes.APPLIANCE.DELETE_SELECTED:
       return state.filter((app) => {
-          return !app.selected;
+        return !app.selected;
       });
 
     default:
-      return state.appliances;
+      return state;
   }
 }

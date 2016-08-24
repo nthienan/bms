@@ -9,7 +9,7 @@ import User from './components/container/User/User';
 import reducers from './reducers/index';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import confirmMiddleware from './middlewares/confirm'
+import confirmMiddleware from './middlewares/confirm-middleware'
 
 const createStoreWithMiddleware = applyMiddleware(confirmMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducers);
