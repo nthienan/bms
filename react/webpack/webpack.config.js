@@ -54,10 +54,11 @@ module.exports = (options) => {
       new Webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(options.isProduction ? 'production' : 'development'),
-        },
+        }
       }),
       new HtmlWebpackPlugin({
         template: Path.join(__dirname, '../src/index.html'),
+        favicon: Path.join(__dirname, '../src/favicon.ico')
       }),
     ],
   };

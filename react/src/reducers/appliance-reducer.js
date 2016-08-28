@@ -56,11 +56,6 @@ const initState = [
 
 export default function (state = initState, action) {
   switch (action.type) {
-    case ActionTypes.APPLIANCE.LOADING:
-      return {
-        appliances: initState
-      };
-
     case ActionTypes.APPLIANCE.SELECTED:
       let newAppliances = [...state];
       let selectedAppliances = action.payload;
@@ -88,7 +83,15 @@ export default function (state = initState, action) {
         return !app.selected;
       });
 
+    case ActionTypes.APPLIANCE.LOAD_SUCCESS:
+      console.log('Success: ', action.payload);
+      return state;
+
+    case ActionTypes.APPLIANCE.LOAD_ERROR:
+      console.log('Error: ', action.payload);
+      return state;
+
     default:
       return state;
   }
-}
+};

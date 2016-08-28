@@ -1,7 +1,7 @@
 {
   "name": "bms",
   "version": "1.0.0",
-  "description": "Starter for Express, React, Redux, SCSS applications",
+  "description": "BMS Application",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
     "prod": "eslint src test webpack && webpack --config ./webpack/webpack-prod.config.js --colors",
@@ -48,6 +48,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "es6-promise": "^3.2.1",
     "esdoc": "^0.4.8",
     "esdoc-es7-plugin": "0.0.3",
     "express": "^4.13.4",
@@ -61,6 +62,8 @@
     "react-router": "^2.4.0",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "superagent": "^2.2.0",
+    "superagent-promise-plugin": "^3.2.0"
   }
 }

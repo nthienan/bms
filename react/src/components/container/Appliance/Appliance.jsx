@@ -2,7 +2,8 @@ import React, {PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectedAppliance, deleteSelectedAppliance} from '../../../actions/applaince-actions';
+import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
+import {getResourceUrl} from '../../../actions/resource-actions';
 
 class Appliance extends React.Component {
 
@@ -10,7 +11,9 @@ class Appliance extends React.Component {
     appliances: PropTypes.array.isRequired,
     selectedAppliance: PropTypes.func,
     hideRemove: PropTypes.bool,
-    deleteSelectedAppliance: PropTypes.func
+    deleteSelectedAppliance: PropTypes.func,
+    getResourceUrl: PropTypes.func,
+    loadAppliances: PropTypes.func
   };
 
   static defaultProps = {
@@ -24,9 +27,12 @@ class Appliance extends React.Component {
   renderApplianceList() {
     return (
       <div className="ap-appliance">
-        <DataTable data={this.props.appliances} title="Appliances" onRowSelected={this.props.selectedAppliance}
+        <DataTable data={this.props.appliances} title="Appliances"
+                   onRowSelected={this.props.selectedAppliance}
                    hideRemove={this.props.hideRemove}
                    onRemove={this.props.deleteSelectedAppliance}
+                   onAdd={this.props.loadAppliances}
+                   onReload={this.props.getResourceUrl}
         />
       </div>
     );
@@ -57,7 +63,9 @@ function mapStateToProps(state) {
 function mappDispatchToProps(dispatch) {
   return bindActionCreators({
     selectedAppliance: selectedAppliance,
-    deleteSelectedAppliance: deleteSelectedAppliance
+    deleteSelectedAppliance: deleteSelectedAppliance,
+    loadAppliances: loadAppliances,
+    getResourceUrl: getResourceUrl
   }, dispatch);
 }
 

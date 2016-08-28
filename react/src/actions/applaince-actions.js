@@ -1,11 +1,32 @@
 import ActionTypes from './action-types';
 import {hideModal} from './modal-actions';
-import {ModalTypes} from '../constant';
+import {ModalTypes, RequestMethods, Resources} from '../constant';
 
 export const selectedAppliance = (appliances) => {
   return {
     type: ActionTypes.APPLIANCE.SELECTED,
     payload: appliances
+  }
+};
+
+export const loadAppliances = () => {
+  return {
+    type: ActionTypes.API.REQUEST,
+    payload: {
+      request: {
+        resource: Resources.Appliances,
+        param: {
+          page: 0,
+          size: 5,
+          sort: 'name,desc'
+        },
+        header: {
+          Accept: 'application/json'
+        }
+      },
+      success: ActionTypes.APPLIANCE.LOAD_SUCCESS,
+      error: ActionTypes.APPLIANCE.LOAD_ERROR
+    }
   }
 };
 
@@ -20,8 +41,7 @@ export const deleteSelectedAppliance = () => {
       },
       callback: {
         handleYes: [{
-          type: ActionTypes.APPLIANCE.DELETE_SELECTED,
-          payload: {}
+          type: ActionTypes.APPLIANCE.DELETE_SELECTED
         },
           hideModal()],
         handleNo: [hideModal()]

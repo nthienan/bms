@@ -51,17 +51,26 @@ class DataTableBody extends React.Component {
     super(props);
   }
 
+  _calculateHeight(rowHeight, maxHeight, numberOfRow, numberOfColumn) {
+    var height = (rowHeight * (numberOfRow + 1));
+    if (height > maxHeight) {
+      height = maxHeight;
+    }
+    var heightAsStr = height + 'px';
+    this.setState({height: heightAsStr, numberOfColumn: numberOfColumn});
+  }
+
   /**
    * Calculate height of component before rendering.
    */
   componentWillMount() {
-    var height = (this.props.rowHeight * (this.props.data.length + 1));
-    if (height > this.props.maxHeight) {
-      height = this.props.maxHeight;
-    }
-    var heightAsStr = height + 'px';
     var numberOfColumn = Object.keys(this.props.data[0]).length + '';
-    this.setState({height: heightAsStr, numberOfColumn: numberOfColumn});
+    this._calculateHeight(this.props.rowHeight, this.props.maxHeight, this.props.data.length, numberOfColumn);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    var numberOfColumn = Object.keys(nextProps.data[0]).length + '';
+    this._calculateHeight(nextProps.rowHeight, nextProps.maxHeight, nextProps.data.length, numberOfColumn);
   }
 
   /**
