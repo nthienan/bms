@@ -1,5 +1,5 @@
 const logMiddleware = store => next => action => {
-  console.log('Dispatch: ', action);
+  console.log(new Date(), action);
   next(action);
 };
 

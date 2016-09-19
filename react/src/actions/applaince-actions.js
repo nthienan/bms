@@ -11,29 +11,27 @@ export const selectedAppliance = (appliances) => {
 
 export const loadAppliances = () => {
   return {
-    type: ActionTypes.API.REQUEST,
-    payload: {
-      request: {
-        resource: Resources.Appliances,
-        param: {
-          page: 0,
-          size: 5,
-          sort: 'name,desc'
-        },
-        header: {
-          Accept: 'application/json'
-        }
+    type: ActionTypes.APPLIANCE.LOAD,
+    request: {
+      resource: Resources.Appliances,
+      param: {
+        page: 0,
+        size: 5,
+        sort: 'name,desc'
       },
-      success: ActionTypes.APPLIANCE.LOAD_SUCCESS,
-      error: ActionTypes.APPLIANCE.LOAD_ERROR
-    }
+      header: {
+        Accept: 'application/json'
+      }
+    },
+    success: ActionTypes.APPLIANCE.LOAD_SUCCESS,
+    error: ActionTypes.APPLIANCE.LOAD_ERROR
   }
 };
 
 export const deleteSelectedAppliance = () => {
   return {
     type: ActionTypes.MODAL.SHOW,
-    payload: {
+    modal: {
       type: ModalTypes.CONFIRM,
       props: {
         open: true,

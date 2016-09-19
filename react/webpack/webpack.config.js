@@ -12,6 +12,7 @@ module.exports = (options) => {
     entry: [
       `webpack-dev-server/client?http://localhost:${+ options.port}`,
       'webpack/hot/dev-server',
+      'babel-polyfill',
       Path.join(__dirname, '../src/index'),
     ],
     output: {

@@ -6,7 +6,7 @@ import resourceReducer from './resource-reducer'
 const rootReducer = combineReducers({
   appliances: applianceReducer,
   modal: modalReducer,
-  resources: resourceReducer
+  resourceLinks: resourceReducer
 });
 
 export default rootReducer;

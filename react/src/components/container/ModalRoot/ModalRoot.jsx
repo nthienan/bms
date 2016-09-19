@@ -35,12 +35,6 @@ class ModalRoot extends React.Component {
     }
     this.setState(state);
   }
-
-  onYes = () => {
-    this.props.dispatch({type: ActionTypes.MODAL.HIDE, payload: {}});
-    this.props.dispatch({type: ActionTypes.APPLIANCE.DELETE_SELECTED, payload: {}});
-  };
-
   render() {
     if (!this.props.type) {
       return null;

@@ -2,7 +2,7 @@ import superagent from 'superagent';
 import superagentPromisePlugin from 'superagent-promise-plugin';
 import {RequestMethods} from '../constant';
 
-const request = ({url, method = RequestMethods.GET, param, body, header}) => {
+const makeRequest = ({url, method = RequestMethods.GET, param, body, header}) => {
   let methodStr;
   switch (method) {
     case RequestMethods.POST:
@@ -34,4 +34,4 @@ const request = ({url, method = RequestMethods.GET, param, body, header}) => {
   return req;
 };
 
-export default request;
+export default makeRequest;

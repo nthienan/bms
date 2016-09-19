@@ -24,7 +24,7 @@ class ConfirmDialog extends React.Component {
       <FlatButton label="No" primary onTouchTap={this.props.handleNo} />
     ];
     return (
-      <BaseDialog open={this.props.open} message={this.props.message} modal
+      <BaseDialog open={this.props.open} message={this.props.message}
                   title={this.props.title} buttons={buttons} width={this.props.width}
       />
     );

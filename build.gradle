@@ -74,7 +74,7 @@ task reactProduction(type: Exec) {
     workingDir './react'
     commandLine 'cmd', '/c', 'npm', 'run', 'prod'
 }
-bootRun.dependsOn reactProduction
+//bootRun.dependsOn reactProduction
 bootRepackage.dependsOn reactProduction
 build.dependsOn reactProduction
 war.dependsOn reactProduction

@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer'
 import LeftNav from '../LeftNav/LeftNav'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import ModalRoot from '../../container/ModalRoot/ModalRoot'
+import ModalRoot from '../../container/ModalRoot/ModalRoot';
+import {getResourceLinks} from './../../../actions/resource-actions';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class App extends React.Component {
@@ -11,7 +12,8 @@ class App extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     title: PropTypes.string,
-    modal: PropTypes.object
+    modal: PropTypes.object,
+    getResourceLinks: PropTypes.func
   };
 
   static defaultProps = {
@@ -25,6 +27,10 @@ class App extends React.Component {
         open: false
       }
     };
+  }
+
+  componentWillMount() {
+    this.props.getResourceLinks();
   }
 
   onMenuItemClick = () => {
@@ -55,4 +61,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+function mappDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getResourceLinks: getResourceLinks
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mappDispatchToProps)(App);

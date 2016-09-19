@@ -3,7 +3,7 @@ import DataTable from '../../ui/DataTable/DataTable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
-import {getResourceUrl} from '../../../actions/resource-actions';
+import {getResourceLinks} from '../../../actions/resource-actions';
 
 class Appliance extends React.Component {
 
@@ -12,7 +12,7 @@ class Appliance extends React.Component {
     selectedAppliance: PropTypes.func,
     hideRemove: PropTypes.bool,
     deleteSelectedAppliance: PropTypes.func,
-    getResourceUrl: PropTypes.func,
+    getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func
   };
 
@@ -32,7 +32,7 @@ class Appliance extends React.Component {
                    hideRemove={this.props.hideRemove}
                    onRemove={this.props.deleteSelectedAppliance}
                    onAdd={this.props.loadAppliances}
-                   onReload={this.props.getResourceUrl}
+                   onReload={this.props.getResourceLinks}
         />
       </div>
     );
@@ -65,7 +65,7 @@ function mappDispatchToProps(dispatch) {
     selectedAppliance: selectedAppliance,
     deleteSelectedAppliance: deleteSelectedAppliance,
     loadAppliances: loadAppliances,
-    getResourceUrl: getResourceUrl
+    getResourceLinks: getResourceLinks
   }, dispatch);
 }
 

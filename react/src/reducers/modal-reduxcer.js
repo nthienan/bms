@@ -10,9 +10,9 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case ActionTypes.MODAL.SHOW:
       return {
-        type: action.payload.type,
-        props: action.payload.props,
-        callback: action.payload.callback
+        type: action.modal.type,
+        props: action.modal.props,
+        callback: action.modal.callback
       };
     case ActionTypes.MODAL.HIDE:
       return initialState;

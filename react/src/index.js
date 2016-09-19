@@ -6,15 +6,18 @@ import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 import App from './components/layout/App/App';
 import Appliance from './components/container/Appliance/Appliance';
 import User from './components/container/User/User';
-import reducers from './reducers/index';
+import rootReducers from './reducers/index-reducer';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import logMiddleware from './middlewares/log-middleware'
-import apiMiddleware from './middlewares/api-middleware'
+import logMiddleware from './middlewares/log-middleware';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/index-sagas';
 
-const middlewares = [logMiddleware, apiMiddleware];
+const sagaMiddleware = createSagaMiddleware();
+const middlewares = [logMiddleware, sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
-const store = createStoreWithMiddleware(reducers);
+const store = createStoreWithMiddleware(rootReducers);
+sagaMiddleware.run(rootSaga);
 
 // Needed for onTouchTap refer http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
