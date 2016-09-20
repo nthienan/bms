@@ -84,11 +84,9 @@ export default function (state = initState, action) {
       });
 
     case ActionTypes.APPLIANCE.LOAD_SUCCESS:
-      console.log('Success: ', action.payload);
       return state;
 
     case ActionTypes.APPLIANCE.LOAD_ERROR:
-      console.log('Error: ', action.payload);
       return state;
 
     default:

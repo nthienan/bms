@@ -10,9 +10,8 @@ module.exports = (options) => {
   const webpackConfig = {
     devtool: options.devtool,
     entry: [
-      `webpack-dev-server/client?http://localhost:${+ options.port}`,
+      `webpack-dev-server/client?http://localhost:${+options.port}`,
       'webpack/hot/dev-server',
-      'babel-polyfill',
       Path.join(__dirname, '../src/index'),
     ],
     output: {
@@ -30,26 +29,23 @@ module.exports = (options) => {
       }, {
         test: /\.json$/,
         loader: 'json-loader',
-      },
-        {
-          test: /\.txt$/,
-          loader: 'raw-loader',
+      }, {
+        test: /\.txt$/,
+        loader: 'raw-loader',
+      }, {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        loader: 'url-loader',
+        query: {
+          name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          limit: 10000,
         },
-        {
-          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-          loader: 'url-loader',
-          query: {
-            name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
-            limit: 10000,
-          },
+      }, {
+        test: /\.(eot|ttf|wav|mp3)$/,
+        loader: 'file-loader',
+        query: {
+          name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
         },
-        {
-          test: /\.(eot|ttf|wav|mp3)$/,
-          loader: 'file-loader',
-          query: {
-            name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
-          },
-        }],
+      }],
     },
     plugins: [
       new Webpack.DefinePlugin({
