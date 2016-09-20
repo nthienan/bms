@@ -2,12 +2,10 @@ import {takeEvery} from 'redux-saga';
 import {take, put, call, fork} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
-import {getRootUrl} from '../config'
 
-export function* loadResourceLinksSaga() {
+export function* loadResourceLinksSaga(action) {
   try {
-    let {request, success, error} = yield take(ActionTypes.RESOURCE.LOAD_LINKS);
-    request.url = getRootUrl();
+    let {request, success, error} = action;
     const response = yield call(makeRequest, request);
     if (!response.error) {
       yield put({type: success, data: response.body});

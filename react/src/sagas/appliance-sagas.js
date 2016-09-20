@@ -2,11 +2,11 @@ import {takeEvery} from 'redux-saga';
 import {take, put, call, fork, select} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
-import {getResourceLink} from '../selectors'
+import {getResourceLink} from '../selectors';
 
-export function* loadApplianceSaga() {
+export function* loadApplianceSaga(action) {
   try {
-    let {request, success, error} = yield take(ActionTypes.APPLIANCE.LOAD);
+    let {request, success, error} = action;
     request.url = yield select(getResourceLink, request.resource);
     const response = yield call(makeRequest, request);
     if (!response.error) {

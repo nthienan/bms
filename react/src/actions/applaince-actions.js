@@ -1,6 +1,6 @@
 import ActionTypes from './action-types';
 import {hideModal} from './modal-actions';
-import {ModalTypes, RequestMethods, Resources} from '../constant';
+import {ModalTypes, Resources} from '../constant';
 
 export const selectedAppliance = (appliances) => {
   return {
@@ -9,15 +9,15 @@ export const selectedAppliance = (appliances) => {
   }
 };
 
-export const loadAppliances = () => {
+export const loadAppliances = ({page = 0, size = 5, sort = 'name,desc'}) => {
   return {
     type: ActionTypes.APPLIANCE.LOAD,
     request: {
       resource: Resources.Appliances,
       param: {
-        page: 0,
-        size: 5,
-        sort: 'name,desc'
+        page: page,
+        size: size,
+        sort: sort
       },
       header: {
         Accept: 'application/json'
