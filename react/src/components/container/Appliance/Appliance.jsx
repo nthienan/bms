@@ -24,6 +24,10 @@ class Appliance extends React.Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.loadAppliances({page: 0});
+  }
+
   renderApplianceList() {
     return (
       <div className="ap-appliance">

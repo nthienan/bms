@@ -29,10 +29,6 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.props.getResourceLinks();
-  }
-
   onMenuItemClick = () => {
     this.setState({leftNav: {...this.state.leftNav, open: !this.state.leftNav.open}});
   };

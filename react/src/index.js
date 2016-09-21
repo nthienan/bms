@@ -10,11 +10,12 @@ import rootReducers from './reducers/index-reducer';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import logMiddleware from './middlewares/log-middleware';
+import resourceMiddleware from './middlewares/resource-middleware';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index-sagas';
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [logMiddleware, sagaMiddleware];
+const middlewares = [logMiddleware, resourceMiddleware, sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(rootReducers);
 sagaMiddleware.run(rootSaga);
