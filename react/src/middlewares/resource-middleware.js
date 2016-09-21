@@ -1,7 +1,8 @@
 import {selectResourceLinks} from '../selectors';
-import {getResourceLinks} from '../actions/resource-actions';
+import {getResourceLinks, getResourceLinksSuccess, getResourceLinksError} from '../actions/resource-actions';
 import makeRequest from '../libs/rest-client';
 import ActionTypes from '../actions/action-types';
+import {callRequestError} from '../actions/request-action';
 
 const resourceMiddleware = store => next => action => {
   if (action.type != ActionTypes.RESOURCE.LOAD_LINKS && action.request) {
@@ -10,13 +11,13 @@ const resourceMiddleware = store => next => action => {
       const {request, success, error} = getResourceLinks();
       makeRequest(request).then(res => {
         if (!res.error) {
-          store.dispatch({type: success, data: res.body});
+          store.dispatch(getResourceLinksSuccess(res.body));
           next(action);
         } else {
-          store.dispatch({type: error, error: response});
+          store.dispatch(getResourceLinksError(res));
         }
       }).catch(err => {
-        store.dispatch({type: ActionTypes.REQUEST.CALL_ERROR, error: err})
+        store.dispatch(callRequestError(err));
       });
     }
   } else {

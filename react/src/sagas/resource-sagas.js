@@ -2,18 +2,19 @@ import {takeEvery} from 'redux-saga';
 import {take, put, call, fork} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
+import {getResourceLinksSuccess, getResourceLinksError} from '../actions/resource-actions';
+import {callRequestError} from '../actions/request-action';
 
 export function* loadResourceLinksSaga(action) {
   try {
-    let {request, success, error} = action;
-    const response = yield call(makeRequest, request);
+    const response = yield call(makeRequest, action.request);
     if (!response.error) {
-      yield put({type: success, data: response.body});
+      yield put(yield call(getResourceLinksSuccess, response.body));
     } else {
-      yield put({type: error, error: response});
+      yield put(yield call(getResourceLinksError, response));
     }
   } catch (e) {
-    yield put({type: ActionTypes.REQUEST.CALL_ERROR, error: e});
+    yield put(yield call(callRequestError, e));
   }
 }
 

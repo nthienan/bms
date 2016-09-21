@@ -3,19 +3,21 @@ import {take, put, call, fork, select} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
 import {selectResourceLink} from '../selectors';
+import {loadAppliancesSuccess, loadAppliancesError} from '../actions/applaince-actions';
+import {callRequestError} from '../actions/request-action';
 
 export function* loadApplianceSaga(action) {
   try {
-    let {request, success, error} = action;
-    request.url = yield select(selectResourceLink, request.resource);
-    const response = yield call(makeRequest, request);
+    action.request.url = yield select(selectResourceLink, action.request.resource);
+    const response = yield call(makeRequest, action.request);
     if (!response.error) {
-      yield put({type: success, payload: response.body});
+      yield put(yield call(loadAppliancesSuccess, response.body));
     } else {
       yield put({type: error, payload: response});
+      yield put(yield call(loadAppliancesError, response));
     }
   } catch (e) {
-    yield put({type: ActionTypes.REQUEST.CALL_ERROR, error: e});
+    yield put(yield call(callRequestError, e));
   }
 }
 

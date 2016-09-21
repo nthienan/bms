@@ -22,9 +22,21 @@ export const loadAppliances = ({page = 0, size = 5, sort = 'name,desc'}) => {
       header: {
         Accept: 'application/json'
       }
-    },
-    success: ActionTypes.APPLIANCE.LOAD_SUCCESS,
-    error: ActionTypes.APPLIANCE.LOAD_ERROR
+    }
+  }
+};
+
+export const loadAppliancesSuccess = (appliances) => {
+  return {
+    type: ActionTypes.APPLIANCE.LOAD_SUCCESS,
+    data: appliances
+  }
+};
+
+export const loadAppliancesError = (error) => {
+  return {
+    type: ActionTypes.APPLIANCE.LOAD_ERROR,
+    error: error
   }
 };
 

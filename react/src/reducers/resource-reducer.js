@@ -6,7 +6,6 @@ export default function (state = {}, action) {
       return action.data;
 
     case ActionTypes.RESOURCE.LOAD_LINKS_ERROR:
-      console.log('Url error: ', action.error);
       return state;
 
     case ActionTypes.REQUEST.CALL_ERROR:

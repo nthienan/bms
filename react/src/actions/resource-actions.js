@@ -9,8 +9,20 @@ export const getResourceLinks = () => {
       header: {
         Accept: 'application/json'
       }
-    },
-    success: ActionTypes.RESOURCE.LOAD_LINKS_SUCCESS,
-    error: ActionTypes.RESOURCE.LOAD_LINKS_ERROR
+    }
+  };
+};
+
+export const getResourceLinksSuccess = (resourceLinks) => {
+  return {
+    type: ActionTypes.RESOURCE.LOAD_LINKS_SUCCESS,
+    data: resourceLinks
+  };
+};
+
+export const getResourceLinksError= (error) => {
+  return {
+    type: ActionTypes.RESOURCE.LOAD_LINKS_ERROR,
+    error: error
   };
 };
