@@ -1,3 +1,4 @@
+//TODO: Need to investigate to use webpack config instead
 export const config = {
   crossOrigin: true,
   rootUrl: '/api',

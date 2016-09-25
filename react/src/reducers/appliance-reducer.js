@@ -10,8 +10,8 @@ const initState = {
 
 export default function (state = initState, action) {
   switch (action.type) {
-    case ActionTypes.APPLIANCE.SELECTED:
-      return {...state, selectedAppliances: action.selectedAppliances};
+    /*case ActionTypes.APPLIANCE.SELECTED:
+      return {...state, selectedAppliances: action.selectedAppliances};*/
 
     case ActionTypes.APPLIANCE.DELETE_SELECTED:
       const appliances = state.data._embedded.appliances.filter((app) => {

@@ -2,7 +2,7 @@ import {selectResourceLinks} from '../selectors';
 import {getResourceLinks, getResourceLinksSuccess, getResourceLinksError} from '../actions/resource-actions';
 import makeRequest from '../libs/rest-client';
 import ActionTypes from '../actions/action-types';
-import {callRequestError} from '../actions/request-action';
+import {callRequestError} from '../actions/request-actions';
 
 const resourceMiddleware = store => next => action => {
   if (action.type != ActionTypes.RESOURCE.LOAD_LINKS && action.request) {

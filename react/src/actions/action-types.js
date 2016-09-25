@@ -24,6 +24,9 @@ const actionTypes = {
   },
   REQUEST: {
     CALL_ERROR: 'CALL_REQUEST_ERROR'
+  },
+  ERROR: {
+    RUNTIME: 'RUNTIME_ERROR'
   }
 };
 export default actionTypes;

@@ -3,7 +3,7 @@ import {take, put, call, fork} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
 import {getResourceLinksSuccess, getResourceLinksError} from '../actions/resource-actions';
-import {callRequestError} from '../actions/request-action';
+import {callRequestError} from '../actions/request-actions';
 
 export function* loadResourceLinksSaga(action) {
   try {

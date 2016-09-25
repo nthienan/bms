@@ -23,7 +23,7 @@ class Appliance extends Component {
   }
 
   componentWillMount() {
-    this.props.loadAppliances({page: 0});
+    this.props.loadAppliances();
   }
 
   renderApplianceList() {

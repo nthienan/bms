@@ -3,7 +3,7 @@ import {take, put, call, fork, select} from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import makeRequest from '../libs/rest-client';
 import {selectResourceLink} from '../selectors';
-import {callRequestError} from '../actions/request-action';
+import {callRequestError} from '../actions/request-actions';
 import {loadUserSuccess, loadUserError} from '../actions/user-actions';
 
 export function* loadUserSaga(action) {
