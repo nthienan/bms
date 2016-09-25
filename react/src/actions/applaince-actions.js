@@ -9,7 +9,7 @@ export const selectedAppliance = (appliances) => {
   }
 };
 
-export const loadAppliances = ({page = 0, size = 5, sort = 'name,desc'}) => {
+export const loadAppliances = ({page = 0, size = 10, sort = 'name,desc'}) => {
   return {
     type: ActionTypes.APPLIANCE.LOAD,
     request: {

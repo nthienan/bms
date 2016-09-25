@@ -10,5 +10,6 @@ export const RequestMethods = {
 };
 
 export const Resources = {
-  Appliances: 'appliances'
+  Appliances: 'appliances',
+  Users: 'users'
 };

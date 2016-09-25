@@ -54,7 +54,7 @@ public class UserController implements ResourceProcessor<RepositorySearchesResou
         } else {
             userList = userRepo.findAll();
         }
-        // TODO: Need to investigate to convert userList to PersistentEntityResource. Currently, we have stackoverflow issue with this.
+        // TODO: Need to investigate to convert userList to PersistentEntityResource. Currently, we have stack overflow issue with this.
         return ResponseEntity.ok(userList);
     }
 

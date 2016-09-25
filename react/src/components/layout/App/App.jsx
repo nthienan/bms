@@ -3,7 +3,6 @@ import Header from '../Header/Header';
 import LeftNav from '../LeftNav/LeftNav'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ModalRoot from '../../container/ModalRoot/ModalRoot';
-import {getResourceLinks} from './../../../actions/resource-actions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -12,8 +11,7 @@ class App extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     title: PropTypes.string,
-    modal: PropTypes.object,
-    getResourceLinks: PropTypes.func
+    modal: PropTypes.object
   };
 
   static defaultProps = {
@@ -57,10 +55,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mappDispatchToProps(dispatch) {
-  return bindActionCreators({
-    getResourceLinks: getResourceLinks
-  }, dispatch);
-}
-
-export default connect(mapStateToProps, mappDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

@@ -8,12 +8,12 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
-import lodash from 'lodash';
 
 class DataTableBody extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
+    column: PropTypes.array.isRequired,
     children: PropTypes.element,
     fixedHeader: PropTypes.bool,
     fixedFooter: PropTypes.bool,
@@ -44,33 +44,23 @@ class DataTableBody extends React.Component {
   };
 
   /**
-   * Default constructor
-   * @param {Object} props
+   * Calculate height of component before rendering.
    */
-  constructor(props) {
-    super(props);
+  componentWillMount() {
+    this._calculateHeight(this.props.rowHeight, this.props.maxHeight, this.props.data.length);
   }
 
-  _calculateHeight(rowHeight, maxHeight, numberOfRow, numberOfColumn) {
+  componentWillReceiveProps(nextProps) {
+    this._calculateHeight(nextProps.rowHeight, nextProps.maxHeight, nextProps.data.length);
+  }
+
+  _calculateHeight(rowHeight, maxHeight, numberOfRow) {
     var height = (rowHeight * (numberOfRow + 1));
     if (height > maxHeight) {
       height = maxHeight;
     }
     var heightAsStr = height + 'px';
-    this.setState({height: heightAsStr, numberOfColumn: numberOfColumn});
-  }
-
-  /**
-   * Calculate height of component before rendering.
-   */
-  componentWillMount() {
-    var numberOfColumn = Object.keys(this.props.data[0]).length + '';
-    this._calculateHeight(this.props.rowHeight, this.props.maxHeight, this.props.data.length, numberOfColumn);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    var numberOfColumn = Object.keys(nextProps.data[0]).length + '';
-    this._calculateHeight(nextProps.rowHeight, nextProps.maxHeight, nextProps.data.length, numberOfColumn);
+    this.setState({height: heightAsStr});
   }
 
   /**
@@ -80,46 +70,23 @@ class DataTableBody extends React.Component {
   renderHeaderRow() {
     return (
       <TableRow>
-        {Object.keys(this.props.data[0]).map((key, index) => (
-          this.renderHeaderColumn(key, index)
-        ))}
+        {this.props.column.map((col, index) =>
+          <TableHeaderColumn key={index} tooltip={col}>{col}</TableHeaderColumn>
+        )}
       </TableRow>
     );
-  }
-
-  /**
-   * Render header column base on properties of first element of data
-   * @param {String} key
-   * @param {Number} index
-   * @returns {TableHeaderColumn} TableHeaderColumn
-   */
-  renderHeaderColumn(key, index) {
-    if (key !== 'selected') {
-      return <TableHeaderColumn key={index} tooltip={lodash.startCase(key)}>{lodash.startCase(key)}</TableHeaderColumn>;
-    }
   }
 
   renderRow(row, index) {
     return (
       <TableRow key={index} selected={row.selected}>
-        {Object.keys(row).map((key, i) => (
-          this.renderColumn(row, key, index)
-        ))}
+        {Object.keys(row).map((key, i) => {
+          if (i < this.props.column.length) {
+            return <TableRowColumn key={index}>{row[key]}</TableRowColumn>;
+          }
+        })}
       </TableRow>
     );
-  }
-
-  /**
-   * Render columns for each row
-   * @param {Object} row row data
-   * @param {String} key key of column
-   * @param {Number} index index of column
-   * @returns {XML}
-   */
-  renderColumn(row, key, index) {
-    if (key !== 'selected') {
-      return <TableRowColumn key={index}>{row[key]}</TableRowColumn>;
-    }
   }
 
   /**
@@ -149,9 +116,9 @@ class DataTableBody extends React.Component {
           showRowHover={this.props.showRowHover}
           stripedRows={this.props.stripedRows}
         >
-          {this.props.data.map((row, index) => (
+          {this.props.data.map((row, index) =>
             this.renderRow(row, index)
-          ))}
+          )}
         </TableBody>
         <TableFooter>
           {this.props.children}

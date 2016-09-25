@@ -43,6 +43,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .disable()
                 .and()
                 .authorizeRequests()
+                // TODO: change 'antMatchers' to '/api/**' to protected api
                 .antMatchers("/AIP/**").authenticated()
                 .and()
                 .sessionManagement()

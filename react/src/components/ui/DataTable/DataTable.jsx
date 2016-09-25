@@ -11,6 +11,7 @@ class DataTable extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
+    column: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     maxHeight: PropTypes.number,
     onRowSelected: PropTypes.func,
@@ -47,8 +48,10 @@ class DataTable extends React.Component {
               />
             </div>
           </DataTableTitle>
-          <DataTableBody data={this.props.data} maxHeight={this.props.maxHeight}
-                         onRowSelected={this.props.onRowSelected}/>
+          <DataTableBody data={this.props.data} column={this.props.column}
+                         maxHeight={this.props.maxHeight}
+                         onRowSelected={this.props.onRowSelected}
+          />
         </Card>
       </div>
     );

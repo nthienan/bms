@@ -19,6 +19,8 @@ const resourceMiddleware = store => next => action => {
       }).catch(err => {
         store.dispatch(callRequestError(err));
       });
+    } else {
+      next(action);
     }
   } else {
     next(action);

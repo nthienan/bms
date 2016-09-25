@@ -1,63 +1,16 @@
 import ActionTypes from '../actions/action-types';
 
-const initState = [
-  {
-    id: 1,
-    name: 'John Smith',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 2,
-    name: 'Randal White',
-    gender: 'Male',
-    status: 'Unemployed'
-  }, {
-    id: 3,
-    name: 'Stephanie Sanders',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 4,
-    name: 'Steve Brown',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 5,
-    name: 'Joyce Whitten',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 6,
-    name: 'Samuel Roberts',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 7,
-    name: 'Adam Moore',
-    gender: 'Female',
-    status: 'Employed'
-  }, {
-    id: 8,
-    name: 'Samuel Roberts',
-    gender: 'Male',
-    status: 'Employed'
-  }, {
-    id: 9,
-    name: 'Adam Moore',
-    gender: 'Female',
-    status: 'Employed'
-  }, {
-    id: 10,
-    name: 'Adam Moore',
-    gender: 'Female',
-    status: 'Employed'
+const initState = {
+  column: ['Appliance Name', 'Hostname', 'IPv4 Address'],
+  data: {
+    '_embedded': {'appliances': []}
   }
-];
+};
 
 export default function (state = initState, action) {
   switch (action.type) {
     case ActionTypes.APPLIANCE.SELECTED:
-      let newAppliances = [...state];
+      let newAppliances = [...state.data._embedded.appliances];
       let selectedAppliances = action.payload;
       if (selectedAppliances === 'all') {
         newAppliances.map((appliance, index) => {
@@ -76,15 +29,34 @@ export default function (state = initState, action) {
           }
         });
       }
-      return newAppliances;
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          _embedded: {
+            ...state.data._embedded,
+            appliances: newAppliances
+          }
+        }
+      };
 
     case ActionTypes.APPLIANCE.DELETE_SELECTED:
-      return state.filter((app) => {
+      const appliances = state.data._embedded.appliances.filter((app) => {
         return !app.selected;
       });
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          _embedded: {
+            ...state.data._embedded,
+            appliances: appliances
+          }
+        }
+      };
 
     case ActionTypes.APPLIANCE.LOAD_SUCCESS:
-      return state;
+      return {...state, data: action.data};
 
     case ActionTypes.APPLIANCE.LOAD_ERROR:
       return state;
