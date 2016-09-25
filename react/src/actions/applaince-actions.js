@@ -5,20 +5,16 @@ import {ModalTypes, Resources} from '../constant';
 export const selectedAppliance = (appliances) => {
   return {
     type: ActionTypes.APPLIANCE.SELECTED,
-    payload: appliances
+    selectedAppliances: appliances
   }
 };
 
-export const loadAppliances = ({page = 0, size = 10, sort = 'name,desc'}) => {
+export const loadAppliances = (params = {page: 0, size: 10, sort: 'name,desc'}) => {
   return {
     type: ActionTypes.APPLIANCE.LOAD,
     request: {
       resource: Resources.Appliances,
-      param: {
-        page: page,
-        size: size,
-        sort: sort
-      },
+      params: params,
       header: {
         Accept: 'application/json'
       }

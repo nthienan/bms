@@ -1,44 +1,17 @@
 import ActionTypes from '../actions/action-types';
 
 const initState = {
-  column: ['Appliance Name', 'Hostname', 'IPv4 Address'],
+  column: {name: 'Appliance Name', hostname: 'Hostname', ipv4Address: 'IPv4 Address'},
   data: {
     '_embedded': {'appliances': []}
-  }
+  },
+  selectedAppliances: null
 };
 
 export default function (state = initState, action) {
   switch (action.type) {
     case ActionTypes.APPLIANCE.SELECTED:
-      let newAppliances = [...state.data._embedded.appliances];
-      let selectedAppliances = action.payload;
-      if (selectedAppliances === 'all') {
-        newAppliances.map((appliance, index) => {
-          newAppliances[index] = {...newAppliances[index], selected: true};
-        });
-      } else if (selectedAppliances === 'none') {
-        newAppliances.map((appliance, index) => {
-          newAppliances[index] = {...newAppliances[index], selected: false};
-        });
-      } else {
-        newAppliances.map((appliance, index) => {
-          if (selectedAppliances.find(x => x === index) === index) {
-            newAppliances[index] = {...newAppliances[index], selected: true};
-          } else {
-            newAppliances[index] = {...newAppliances[index], selected: false};
-          }
-        });
-      }
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          _embedded: {
-            ...state.data._embedded,
-            appliances: newAppliances
-          }
-        }
-      };
+      return {...state, selectedAppliances: action.selectedAppliances};
 
     case ActionTypes.APPLIANCE.DELETE_SELECTED:
       const appliances = state.data._embedded.appliances.filter((app) => {

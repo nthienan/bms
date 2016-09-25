@@ -23,6 +23,6 @@ export function* loadUserSaga(action) {
 
 export function* watchLoadUser() {
   while (true) {
-    yield* takeLatest(ActionTypes.USER.LOAD, loadUserSaga());
+    yield* takeLatest(ActionTypes.USER.LOAD, loadUserSaga);
   }
 }

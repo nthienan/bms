@@ -2,23 +2,19 @@ import ActionTypes from './action-types';
 import {hideModal} from './modal-actions';
 import {ModalTypes, Resources} from '../constant';
 
-export const selectedUser = (userData) => {
+export const selectedUser = (users) => {
   return {
     type: ActionTypes.USER.SELECTED,
-    userData: userData
+    selectedUsers: users
   }
 };
 
-export const loadUser = ({page = 0, size = 10, sort = 'createdDate,desc'}) => {
+export const loadUser = (params = {page: 0, size: 10, sort: 'createdDate,desc'}) => {
   return {
     type: ActionTypes.USER.LOAD,
     request: {
       resource: Resources.Users,
-      param: {
-        page: page,
-        size: size,
-        sort: sort
-      },
+      params: params,
       header: {
         Accept: 'application/json'
       }

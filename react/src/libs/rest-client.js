@@ -2,7 +2,7 @@ import superagent from 'superagent';
 import superagentPromisePlugin from 'superagent-promise-plugin';
 import {RequestMethods} from '../constant';
 
-const makeRequest = ({url, method = RequestMethods.GET, param, body, header}) => {
+const makeRequest = ({url, method = RequestMethods.GET, params, body, header}) => {
   let methodStr;
   switch (method) {
     case RequestMethods.POST:
@@ -24,8 +24,8 @@ const makeRequest = ({url, method = RequestMethods.GET, param, body, header}) =>
     req.set(header)
   }
   //set param
-  if (param) {
-    req.query(param)
+  if (params) {
+    req.query(params)
   }
   //set body
   if (body) {

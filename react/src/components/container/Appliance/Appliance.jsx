@@ -1,16 +1,14 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
-import {getResourceLinks} from '../../../actions/resource-actions';
 
-class Appliance extends React.Component {
+class Appliance extends Component {
 
   static propTypes = {
     appliances: PropTypes.object.isRequired,
     selectedAppliance: PropTypes.func,
-    hideRemove: PropTypes.bool,
     deleteSelectedAppliance: PropTypes.func,
     getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func
@@ -35,7 +33,6 @@ class Appliance extends React.Component {
                    title="Appliances"
                    column={this.props.appliances.column}
                    onRowSelected={this.props.selectedAppliance}
-                   hideRemove={this.props.hideRemove}
                    onRemove={this.props.deleteSelectedAppliance}
                    onReload={this.props.loadAppliances}
         />
@@ -54,20 +51,12 @@ class Appliance extends React.Component {
 }
 
 function mapStateToProps(state) {
-  let hideRemove = true;
-  for (let i = 0; i < state.appliances.data._embedded.appliances.length; i++) {
-    if (state.appliances.data._embedded.appliances[i].selected) {
-      hideRemove = false;
-      break;
-    }
-  }
   return {
-    appliances: state.appliances,
-    hideRemove: hideRemove
+    appliances: state.appliances
   };
 }
 
-function mappDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     selectedAppliance: selectedAppliance,
     deleteSelectedAppliance: deleteSelectedAppliance,
@@ -75,4 +64,4 @@ function mappDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mappDispatchToProps)(Appliance);
+export default connect(mapStateToProps, mapDispatchToProps)(Appliance);

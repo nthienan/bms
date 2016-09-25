@@ -11,7 +11,7 @@ class DataTable extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
-    column: PropTypes.array.isRequired,
+    column: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     maxHeight: PropTypes.number,
     onRowSelected: PropTypes.func,

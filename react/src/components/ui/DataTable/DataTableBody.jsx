@@ -13,7 +13,7 @@ class DataTableBody extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
-    column: PropTypes.array.isRequired,
+    column: PropTypes.object.isRequired,
     children: PropTypes.element,
     fixedHeader: PropTypes.bool,
     fixedFooter: PropTypes.bool,
@@ -70,9 +70,12 @@ class DataTableBody extends React.Component {
   renderHeaderRow() {
     return (
       <TableRow>
-        {this.props.column.map((col, index) =>
-          <TableHeaderColumn key={index} tooltip={col}>{col}</TableHeaderColumn>
-        )}
+        {
+          Object.keys(this.props.column).map((field, idx) => {
+            let value = this.props.column[field];
+            return <TableHeaderColumn key={idx} tooltip={value}>{value}</TableHeaderColumn>
+          })
+        }
       </TableRow>
     );
   }
@@ -80,10 +83,8 @@ class DataTableBody extends React.Component {
   renderRow(row, index) {
     return (
       <TableRow key={index} selected={row.selected}>
-        {Object.keys(row).map((key, i) => {
-          if (i < this.props.column.length) {
-            return <TableRowColumn key={index}>{row[key]}</TableRowColumn>;
-          }
+        {Object.keys(this.props.column).map((key, i) => {
+            return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
         })}
       </TableRow>
     );
