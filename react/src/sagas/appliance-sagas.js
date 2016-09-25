@@ -5,7 +5,6 @@ import makeRequest from '../libs/rest-client';
 import {selectResourceLink} from '../selectors';
 import {loadAppliancesSuccess, loadAppliancesError} from '../actions/applaince-actions';
 import {callRequestError} from '../actions/request-actions';
-import {error} from '../actions/error-actions';
 
 function loadOwner(appliance) {
   if (appliance._links && appliance._links.owners) {
