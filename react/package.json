@@ -55,6 +55,7 @@
     "express": "^4.13.4",
     "immutable": "^3.8.1",
     "material-ui": "^0.15.3",
+    "object-path": "^0.11.2",
     "react": "^15.0.2",
     "react-bootstrap": "^0.30.2",
     "react-dom": "^15.0.2",

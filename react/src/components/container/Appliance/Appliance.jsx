@@ -20,6 +20,12 @@ class Appliance extends Component {
 
   constructor(props) {
     super(props);
+    this.columns = {
+      name: 'Appliance Name',
+      hostname: 'Hostname',
+      ipv4Address: 'IPv4 Address',
+      owners: 'Owners'
+    };
   }
 
   componentWillMount() {
@@ -27,11 +33,24 @@ class Appliance extends Component {
   }
 
   renderApplianceList() {
+    const apps = this.props.appliances._embedded.appliances.map(app => {
+      let owners = '';
+      if (app.owners) {
+        for (let i = 0; i < app.owners._embedded.users.length; i++) {
+          if (i !== app.owners._embedded.users.length - 1) {
+            owners += app.owners._embedded.users[i].firstName + ', ';
+          } else {
+            owners += app.owners._embedded.users[i].firstName;
+          }
+        }
+      }
+      return {name: app.name, hostname: app.hostname, ipv4Address: app.ipv4Address, owners}
+    });
     return (
       <div className="ap-appliance">
-        <DataTable data={this.props.appliances.data._embedded.appliances}
+        <DataTable data={apps}
                    title="Appliances"
-                   column={this.props.appliances.column}
+                   column={this.columns}
                    onRowSelected={this.props.selectedAppliance}
                    onRemove={this.props.deleteSelectedAppliance}
                    onReload={this.props.loadAppliances}
@@ -41,8 +60,8 @@ class Appliance extends Component {
   }
 
   render() {
-    if (this.props.appliances.data._embedded.appliances
-      && this.props.appliances.data._embedded.appliances.length != 0) {
+    if (this.props.appliances._embedded.appliances
+      && this.props.appliances._embedded.appliances.length != 0) {
       return this.renderApplianceList();
     } else {
       return <div>Nothing to show</div>;

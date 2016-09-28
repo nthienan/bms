@@ -36,6 +36,21 @@ export const loadAppliancesError = (error) => {
   }
 };
 
+export const loadOwnersAppliance = (appliance) => {
+  return {
+    type: ActionTypes.APPLIANCE.LOAD_OWNERS,
+    appliance
+  }
+};
+
+export const loadOwnersApplianceSuccess = (applianceLink, owners) => {
+  return {
+    type: ActionTypes.APPLIANCE.LOAD_OWNERS_SUCCESS,
+    applianceLink,
+    owners
+  }
+};
+
 export const deleteSelectedAppliance = () => {
   return {
     type: ActionTypes.MODAL.SHOW,

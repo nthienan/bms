@@ -5,7 +5,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (options) => {
   const ExtractSASS = new ExtractTextPlugin(`css/${options.cssFileName}`);
-  const __DEV__ = options.isProduction;
 
   const webpackConfig = {
     devtool: options.devtool,
@@ -36,14 +35,14 @@ module.exports = (options) => {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
         loader: 'url-loader',
         query: {
-          name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: options.isProduction ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
           limit: 10000,
         },
       }, {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',
         query: {
-          name: __DEV__ ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: options.isProduction ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
         },
       }],
     },
