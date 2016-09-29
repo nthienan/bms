@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
+import NoResultBackground from '../../ui/Background/NoResultBackground';
+import CircularLoading from '../../ui/CircularLoading/CircularLoading';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
@@ -60,11 +62,14 @@ class Appliance extends Component {
   }
 
   render() {
+    if (this.props.appliances.isLoading) {
+      return <CircularLoading show={this.props.appliances.isLoading}/>;
+    }
     if (this.props.appliances._embedded.appliances
       && this.props.appliances._embedded.appliances.length != 0) {
       return this.renderApplianceList();
     } else {
-      return <div>Nothing to show</div>;
+      return <NoResultBackground/>;
     }
   }
 }
