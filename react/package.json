@@ -1,6 +1,6 @@
 {
   "name": "bms",
-  "version": "1.0.0",
+  "version": "0.1.0-SNAPSHOT",
   "description": "BMS Application",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
