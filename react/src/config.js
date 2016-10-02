@@ -1,8 +1,8 @@
 //TODO: Need to investigate to use webpack config instead
 export const config = {
-  crossOrigin: false,
+  crossOrigin: true,
   rootUrl: '/api',
-  baseUrl: ''
+  baseUrl: 'http://localhost:9009'
 };
 
 export const getRootUrl = () => {
