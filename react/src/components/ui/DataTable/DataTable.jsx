@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Card} from 'material-ui/Card';
-import DataTableTitle from './DataTableTitle';
+import {Card, CardTitle} from 'material-ui/Card';
 import DataTableBody from './DataTableBody';
 import CrudButtons from '../Button/CrudButtons/CrudButtons';
 
@@ -12,14 +11,17 @@ class DataTable extends React.Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     column: PropTypes.object.isRequired,
+    total: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    maxHeight: PropTypes.number,
     onRowSelected: PropTypes.func,
     hideRemove: PropTypes.bool,
     onSearch: PropTypes.func,
     onReload: PropTypes.func,
     onAdd: PropTypes.func,
-    onRemove: PropTypes.func
+    onRemove: PropTypes.func,
+    handlePageSizeClick: PropTypes.func,
+    onPageClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -35,11 +37,18 @@ class DataTable extends React.Component {
    * @returns {XML} data table component
    */
   render() {
+    const style = {
+        position: 'absolute',
+        top: '0px',
+        bottom: '0px',
+        right: '0px',
+        padding: '16px'
+      };
     return (
-      <div className="da-datatable">
+      <div>
         <Card>
-          <DataTableTitle title={this.props.title}>
-            <div className="right-corner-action">
+          <CardTitle title={this.props.title}>
+            <div style={style}>
               <CrudButtons hideRemove={this.props.hideRemove}
                            onSearch={this.props.onSearch}
                            onReload={this.props.onReload}
@@ -47,10 +56,11 @@ class DataTable extends React.Component {
                            onRemove={this.props.onRemove}
               />
             </div>
-          </DataTableTitle>
+          </CardTitle>
           <DataTableBody data={this.props.data} column={this.props.column}
-                         maxHeight={this.props.maxHeight}
                          onRowSelected={this.props.onRowSelected}
+                         total={this.props.total} page={this.props.page}
+                         handlePageClick={this.props.onPageClick} handlePageSizeClick={this.props.handlePageSizeClick}
           />
         </Card>
       </div>

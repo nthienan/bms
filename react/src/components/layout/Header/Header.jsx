@@ -10,11 +10,15 @@ class Header extends React.Component {
 
   static propTypes = {
     onLeftButtonClick: PropTypes.func.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    style: PropTypes.object
   };
 
   static defaultProps = {
-    title: ''
+    title: '',
+    style: {
+      marginBottom: '20px'
+    }
   };
 
   constructor(props) {
@@ -23,7 +27,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <header>
+      <header style={this.props.style}>
         <nav>
           <AppBar
             title={this.props.title}

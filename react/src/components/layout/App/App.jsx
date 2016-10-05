@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import LeftNav from '../LeftNav/LeftNav'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ModalRoot from '../../container/ModalRoot/ModalRoot';
@@ -11,11 +12,16 @@ class App extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     title: PropTypes.string,
-    modal: PropTypes.object
+    modal: PropTypes.object,
+    style: PropTypes.object
   };
 
   static defaultProps = {
-    title: 'BMS Application'
+    title: 'BMS Application',
+    style: {
+      padding: '0 20px 80px 20px',
+      minHeight: '100%'
+    }
   };
 
   constructor(props) {
@@ -33,18 +39,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="ap-app">
-        <MuiThemeProvider>
-          <div>
-            <Header title={this.props.title} onLeftButtonClick={this.onMenuItemClick}/>
+      <MuiThemeProvider>
+        <div>
+          <Header title={this.props.title} onLeftButtonClick={this.onMenuItemClick}/>
+          <div style={this.props.style}>
             <LeftNav title={this.props.title} open={this.state.leftNav.open} onMenuItemClick={this.onMenuItemClick}/>
-            <div className="container">
-              {this.props.children}
-            </div>
-            <ModalRoot type={this.props.modal.type} props={this.props.modal.props} callback={this.props.modal.callback}/>
+            {this.props.children}
           </div>
-        </MuiThemeProvider>
-      </div>
+          <Footer/>
+          <ModalRoot type={this.props.modal.type} props={this.props.modal.props}
+                     callback={this.props.modal.callback}
+          />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

@@ -27,7 +27,7 @@ class LeftNav extends React.Component {
 
   render() {
     return (
-      <div className="ln-leftnav">
+      <div>
         <Drawer docked={this.props.docked} width={this.props.width} open={this.props.open}>
           <AppBar title={this.props.title} onLeftIconButtonTouchTap={this.props.onMenuItemClick}/>
           <Link to="/">

@@ -29,7 +29,7 @@ class CrudButtons extends React.Component {
 
   render() {
     return (
-      <div className="cr-crud-buttons">
+      <div>
         <IconButton iconClassName="material-icons" tooltip="Search" touch={this.props.touch}
                     className={this.props.hideSearch ? 'hide' : null}
                     onClick={this.props.onSearch}

@@ -3,6 +3,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as UserActions from '../../../actions/user-actions';
 import DataTable from '../../ui/DataTable/DataTable';
+import NoResultBackground from '../../ui/Background/NoResultBackground';
+import CircularLoading from '../../ui/CircularLoading/CircularLoading';
+import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
 
 /**
  * User container
@@ -18,17 +21,19 @@ class User extends Component {
     super(props);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.loadUser();
   }
 
   renderUserList() {
     return (
-      <div className="us-user">
+      <div>
         <DataTable data={this.props.users.data._embedded.users}
                    title="Users"
+                   total={104} limit={20} page={1}
                    column={this.props.users.column}
         />
+        <FloatingAddButton />
       </div>
     );
   }
@@ -38,7 +43,12 @@ class User extends Component {
       && this.props.users.data._embedded.users.length != 0) {
       return this.renderUserList();
     } else {
-      return <div>Nothing to show</div>;
+      return (
+        <div>
+          <NoResultBackground/>
+          <FloatingAddButton/>
+        </div>
+      );
     }
   }
 }

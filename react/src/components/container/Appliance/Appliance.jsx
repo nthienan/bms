@@ -5,6 +5,7 @@ import CircularLoading from '../../ui/CircularLoading/CircularLoading';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
+import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
 
 class Appliance extends Component {
 
@@ -34,6 +35,14 @@ class Appliance extends Component {
     this.props.loadAppliances();
   }
 
+  handleMovePage() {
+    console.log(this.props)
+  }
+
+  handlePageSizeClick(pageSize) {
+    console.log(`pageSize: ${pageSize}`)
+  }
+
   renderApplianceList() {
     const apps = this.props.appliances._embedded.appliances.map(app => {
       let owners = '';
@@ -49,14 +58,18 @@ class Appliance extends Component {
       return {name: app.name, hostname: app.hostname, ipv4Address: app.ipv4Address, owners}
     });
     return (
-      <div className="ap-appliance">
+      <div>
         <DataTable data={apps}
                    title="Appliances"
                    column={this.columns}
                    onRowSelected={this.props.selectedAppliance}
                    onRemove={this.props.deleteSelectedAppliance}
                    onReload={this.props.loadAppliances}
+                   onPageClick={this.handleMovePage}
+                   handlePageSizeClick={this.handlePageSizeClick}
+                   total={201} page={1}
         />
+        <FloatingAddButton/>
       </div>
     );
   }
@@ -69,7 +82,12 @@ class Appliance extends Component {
       && this.props.appliances._embedded.appliances.length != 0) {
       return this.renderApplianceList();
     } else {
-      return <NoResultBackground/>;
+      return (
+        <div>
+          <NoResultBackground/>
+          <FloatingAddButton/>
+        </div>
+      );
     }
   }
 }

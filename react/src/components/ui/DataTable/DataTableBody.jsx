@@ -8,13 +8,15 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+import Pagination from '../Pagination/Pagination';
 
 class DataTableBody extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
     column: PropTypes.object.isRequired,
-    children: PropTypes.element,
+    total: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
     fixedHeader: PropTypes.bool,
     fixedFooter: PropTypes.bool,
     stripedRows: PropTypes.bool,
@@ -24,9 +26,9 @@ class DataTableBody extends React.Component {
     enableSelectAll: PropTypes.bool,
     deselectOnClickaway: PropTypes.bool,
     showCheckboxes: PropTypes.bool,
-    rowHeight: PropTypes.number,
-    maxHeight: PropTypes.number,
-    onRowSelected: PropTypes.func
+    onRowSelected: PropTypes.func,
+    onPageClick: PropTypes.func,
+    handlePageSizeClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -38,30 +40,8 @@ class DataTableBody extends React.Component {
     multiSelectable: true,
     enableSelectAll: true,
     deselectOnClickaway: false,
-    showCheckboxes: true,
-    rowHeight: 48,
-    maxHeight: 550
+    showCheckboxes: false
   };
-
-  /**
-   * Calculate height of component before rendering.
-   */
-  componentWillMount() {
-    this._calculateHeight(this.props.rowHeight, this.props.maxHeight, this.props.data.length);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this._calculateHeight(nextProps.rowHeight, nextProps.maxHeight, nextProps.data.length);
-  }
-
-  _calculateHeight(rowHeight, maxHeight, numberOfRow) {
-    var height = (rowHeight * (numberOfRow + 1));
-    if (height > maxHeight) {
-      height = maxHeight;
-    }
-    var heightAsStr = height + 'px';
-    this.setState({height: heightAsStr});
-  }
 
   /**
    * Render header row base on first element of data properties
@@ -84,7 +64,7 @@ class DataTableBody extends React.Component {
     return (
       <TableRow key={index} selected={row.selected}>
         {Object.keys(this.props.column).map((key, i) => {
-            return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
+          return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
         })}
       </TableRow>
     );
@@ -97,7 +77,6 @@ class DataTableBody extends React.Component {
   render() {
     return (
       <Table
-        height={this.state.height}
         fixedHeader={this.props.fixedHeader}
         fixedFooter={this.props.fixedFooter}
         selectable={this.props.selectable}
@@ -122,7 +101,14 @@ class DataTableBody extends React.Component {
           )}
         </TableBody>
         <TableFooter>
-          {this.props.children}
+          <TableRow>
+            <TableRowColumn colSpan={this.props.column.length}>
+              <Pagination total={this.props.total} page={this.props.page}
+                          handlePageClick={this.props.onPageClick}
+                          handlePageSizeClick={this.props.handlePageSizeClick}
+              />
+            </TableRowColumn>
+          </TableRow>
         </TableFooter>
       </Table>
     );
