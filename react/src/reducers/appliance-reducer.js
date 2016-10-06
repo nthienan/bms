@@ -5,6 +5,10 @@ const initState = {
   _embedded: {
     appliances: []
   },
+  page: {
+    number: 0,
+    totalElements: 0
+  },
   selectedAppliances: null
 };
 

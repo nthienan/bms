@@ -27,8 +27,9 @@ class DataTableBody extends React.Component {
     deselectOnClickaway: PropTypes.bool,
     showCheckboxes: PropTypes.bool,
     onRowSelected: PropTypes.func,
-    onPageClick: PropTypes.func,
-    handlePageSizeClick: PropTypes.func
+    handlePageClick: PropTypes.func,
+    handlePageSizeClick: PropTypes.func,
+    pageSize: PropTypes.array.isRequired
   };
 
   static defaultProps = {
@@ -104,8 +105,9 @@ class DataTableBody extends React.Component {
           <TableRow>
             <TableRowColumn colSpan={this.props.column.length}>
               <Pagination total={this.props.total} page={this.props.page}
-                          handlePageClick={this.props.onPageClick}
+                          handlePageClick={this.props.handlePageClick}
                           handlePageSizeClick={this.props.handlePageSizeClick}
+                          pageSize={this.props.pageSize}
               />
             </TableRowColumn>
           </TableRow>

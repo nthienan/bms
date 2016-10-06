@@ -30,21 +30,16 @@ class Pagination extends React.Component {
       text: {
         lineHeight: '48px'
       }
-    },
-    pageSize: [
-      {lable: '10 rows/page', value: 10},
-      {lable: '20 rows/page', value: 20},
-      {lable: '50 rows/page', value: 50},
-      {lable: '100 rows/page', value: 100},
-      {lable: '200 rows/page', value: 200},
-    ]
+    }
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: 10
-    }
+    props.pageSize.map(e => {
+      if (e.selected) {
+       this.state = {value: e.value};
+      }
+    });
   }
 
   pageLabel(page, limit, total) {
@@ -53,9 +48,17 @@ class Pagination extends React.Component {
     return `${from} - ${to} of ${total}`;
   }
 
-  onChange = (event, key, value) => {
-    this.setState({value});
+  goToPrevious = () => {
+    this.props.handlePageClick(this.props.page - 1);
+  };
+
+  goToNext = () => {
+    this.props.handlePageClick(this.props.page + 1);
+  };
+
+  onPageSizeChange = (event, key, value) => {
     this.props.handlePageSizeClick(value);
+    this.setState({value});
   };
 
   renderPageSize() {
@@ -75,8 +78,12 @@ class Pagination extends React.Component {
     };
 
     return (
-      <DropDownMenu labelStyle={style.labelStyle} underlineStyle={style.underlineStyle} style={style.root}
-                    iconStyle={style.iconStyle} value={this.state.value} onChange={this.onChange}
+      <DropDownMenu labelStyle={style.labelStyle}
+                    underlineStyle={style.underlineStyle}
+                    style={style.root}
+                    iconStyle={style.iconStyle}
+                    value={this.state.value}
+                    onChange={this.onPageSizeChange}
       >
         {
           this.props.pageSize.map((e, i) =>
@@ -94,13 +101,13 @@ class Pagination extends React.Component {
         </div>
         <IconButton
           disabled={this.props.page === 1}
-          onClick={this.props.handlePageClick}
+          onTouchTap={this.goToPrevious}
         >
           <ChevronLeft />
         </IconButton>
         <IconButton
           disabled={this.props.page * this.state.value >= this.props.total}
-          onClick={this.props.handlePageClick}
+          onTouchTap={this.goToNext}
         >
           <ChevronRight />
         </IconButton>

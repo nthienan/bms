@@ -14,34 +14,75 @@ class Appliance extends Component {
     selectedAppliance: PropTypes.func,
     deleteSelectedAppliance: PropTypes.func,
     getResourceLinks: PropTypes.func,
-    loadAppliances: PropTypes.func
+    loadAppliances: PropTypes.func,
+    columns: PropTypes.object
   };
 
   static defaultProps = {
-    hideRemove: true
-  };
-
-  constructor(props) {
-    super(props);
-    this.columns = {
+    hideRemove: true,
+    columns: {
       name: 'Appliance Name',
       hostname: 'Hostname',
       ipv4Address: 'IPv4 Address',
       owners: 'Owners'
-    };
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageSize: [
+        {lable: '5 rows/page', value: 5, selected: true},
+        {lable: '10 rows/page', value: 10},
+        {lable: '20 rows/page', value: 20},
+        {lable: '50 rows/page', value: 50},
+        {lable: '100 rows/page', value: 100},
+        {lable: '200 rows/page', value: 200},
+      ]
+    }
   }
 
   componentWillMount() {
-    this.props.loadAppliances();
+    let pageSize = 5;
+    this.state.pageSize.map(e => {
+      if(e.selected) {
+        pageSize = e.value;
+      }
+    });
+    this.props.loadAppliances({
+      page: this.props.appliances.page.number,
+      size: pageSize,
+      sort: 'name,desc'
+    });
   }
 
-  handleMovePage() {
-    console.log(this.props)
-  }
+  handleMovePage = (nextPage) => {
+    let pageSize = 5;
+    this.state.pageSize.map(e => {
+      if(e.selected) {
+        pageSize = e.value;
+      }
+    });
+    this.props.loadAppliances({
+      page: nextPage - 1,
+      size: pageSize,
+      sort: 'name,desc'
+    });
+  };
 
-  handlePageSizeClick(pageSize) {
+  handlePageSizeClick = (pageSize) => {
+    let pageSizeArr = this.state.pageSize.map(e => {
+      e.selected = e.value === pageSize;
+      return e;
+    });
+    this.setState({pageSize: [...pageSizeArr]});
+    this.props.loadAppliances({
+      page: this.props.appliances.page.number,
+      size: pageSize,
+      sort: 'name,desc'
+    });
     console.log(`pageSize: ${pageSize}`)
-  }
+  };
 
   renderApplianceList() {
     const apps = this.props.appliances._embedded.appliances.map(app => {
@@ -61,13 +102,15 @@ class Appliance extends Component {
       <div>
         <DataTable data={apps}
                    title="Appliances"
-                   column={this.columns}
+                   column={this.props.columns}
                    onRowSelected={this.props.selectedAppliance}
                    onRemove={this.props.deleteSelectedAppliance}
                    onReload={this.props.loadAppliances}
-                   onPageClick={this.handleMovePage}
+                   handlePageClick={this.handleMovePage}
                    handlePageSizeClick={this.handlePageSizeClick}
-                   total={201} page={1}
+                   total={this.props.appliances.page.totalElements}
+                   page={this.props.appliances.page.number + 1}
+                   pageSize={this.state.pageSize}
         />
         <FloatingAddButton/>
       </div>

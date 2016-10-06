@@ -21,7 +21,8 @@ class DataTable extends React.Component {
     onAdd: PropTypes.func,
     onRemove: PropTypes.func,
     handlePageSizeClick: PropTypes.func,
-    onPageClick: PropTypes.func
+    handlePageClick: PropTypes.func,
+    pageSize: PropTypes.array.isRequired
   };
 
   static defaultProps = {
@@ -60,7 +61,9 @@ class DataTable extends React.Component {
           <DataTableBody data={this.props.data} column={this.props.column}
                          onRowSelected={this.props.onRowSelected}
                          total={this.props.total} page={this.props.page}
-                         handlePageClick={this.props.onPageClick} handlePageSizeClick={this.props.handlePageSizeClick}
+                         handlePageClick={this.props.handlePageClick}
+                         handlePageSizeClick={this.props.handlePageSizeClick}
+                         pageSize={this.props.pageSize}
           />
         </Card>
       </div>
