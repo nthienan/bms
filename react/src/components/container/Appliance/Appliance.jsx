@@ -77,11 +77,10 @@ class Appliance extends Component {
     });
     this.setState({pageSize: [...pageSizeArr]});
     this.props.loadAppliances({
-      page: this.props.appliances.page.number,
+      page: 0,
       size: pageSize,
       sort: 'name,desc'
     });
-    console.log(`pageSize: ${pageSize}`)
   };
 
   renderApplianceList() {

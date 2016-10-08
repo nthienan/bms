@@ -95,12 +95,7 @@ export default {
     padding: 3,
   },
   progressBar: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 2,
-    zIndex: 10000,
+    height: 2
   },
-  progressColor: '#009E5D',
+  progressColor: '#ff3d00',
 };
