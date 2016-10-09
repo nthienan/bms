@@ -28,7 +28,7 @@ ReactDOM.render(
     <Router onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Appliance}/>;
-        <Route path="/about" component={User}/>
+        <Route path="/user" component={User}/>
       </Route>
     </Router>
   </Provider>,

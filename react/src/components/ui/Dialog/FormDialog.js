@@ -1,16 +1,20 @@
 import React, {PropTypes} from 'react';
 import Dialog from 'material-ui/Dialog';
 
-class BaseDialog extends React.Component {
+/**
+ * FormDialog class
+ * Created by nthienan on 10/9/2016.
+ */
+class FormDialog extends React.Component {
 
   static propTypes = {
     open: PropTypes.bool.isRequired,
     onRequestClose: PropTypes.func,
     buttons: PropTypes.arrayOf(PropTypes.element),
     modal: PropTypes.bool,
-    message: React.PropTypes.string.isRequired,
     title: PropTypes.string,
-    width: PropTypes.number
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    children: PropTypes.node.isRequired,
   };
 
   static defaultProps = {
@@ -21,7 +25,7 @@ class BaseDialog extends React.Component {
 
   render() {
     let style = {
-      width: this.props.width + 'px'
+      width: this.props.width
     };
     let titleStyle = {
       fontSize: 'inherit'
@@ -33,11 +37,10 @@ class BaseDialog extends React.Component {
         contentStyle={style} titleStyle={titleStyle}
 
       >
-        {this.props.message}
+        {this.props.children}
       </Dialog>
     );
   }
-
 }
 
-export default BaseDialog;
+export default FormDialog;

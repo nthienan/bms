@@ -6,7 +6,8 @@ import MaterialUiStyles from '../../../styles/MaterialUI/MaterialUI'
 class FloatingAddButton extends React.Component {
 
   static propTypes = {
-    style: PropTypes.object
+    style: PropTypes.object,
+    onClick: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -17,10 +18,14 @@ class FloatingAddButton extends React.Component {
     super(props);
   }
 
+  handleClick = () => {
+    this.props.onClick();
+  };
+
   render() {
     return (
       <div>
-        <FloatingActionButton style={this.props.style}>
+        <FloatingActionButton style={this.props.style} onTouchTap={this.handleClick}>
           <ContentAdd/>
         </FloatingActionButton>
       </div>

@@ -4,18 +4,17 @@ import NoResultBackground from '../../ui/Background/NoResultBackground';
 import CircularLoading from '../../ui/CircularLoading/CircularLoading';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectedAppliance, deleteSelectedAppliance, loadAppliances} from '../../../actions/applaince-actions';
+import {addAppliance, loadAppliances} from '../../../actions/applaince-actions';
 import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
 
 class Appliance extends Component {
 
   static propTypes = {
     appliances: PropTypes.object.isRequired,
-    selectedAppliance: PropTypes.func,
-    deleteSelectedAppliance: PropTypes.func,
     getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func,
-    columns: PropTypes.object
+    columns: PropTypes.object,
+    addAppliance: PropTypes.func
   };
 
   static defaultProps = {
@@ -102,8 +101,6 @@ class Appliance extends Component {
         <DataTable data={apps}
                    title="Appliances"
                    column={this.props.columns}
-                   onRowSelected={this.props.selectedAppliance}
-                   onRemove={this.props.deleteSelectedAppliance}
                    onReload={this.props.loadAppliances}
                    handlePageClick={this.handleMovePage}
                    handlePageSizeClick={this.handlePageSizeClick}
@@ -111,7 +108,7 @@ class Appliance extends Component {
                    page={this.props.appliances.page.number + 1}
                    pageSize={this.state.pageSize}
         />
-        <FloatingAddButton/>
+        <FloatingAddButton onClick={this.props.addAppliance}/>
       </div>
     );
   }
@@ -127,7 +124,7 @@ class Appliance extends Component {
       return (
         <div>
           <NoResultBackground/>
-          <FloatingAddButton/>
+          <FloatingAddButton onClick={this.props.addAppliance}/>
         </div>
       );
     }
@@ -142,9 +139,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    selectedAppliance: selectedAppliance,
-    deleteSelectedAppliance: deleteSelectedAppliance,
-    loadAppliances: loadAppliances
+    loadAppliances: loadAppliances,
+    addAppliance: addAppliance
   }, dispatch);
 }
 

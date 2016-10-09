@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import BaseDialog from '../BaseDialog';
+import MessageDialog from './MessageDialog';
 
 class ConfirmDialog extends React.Component {
 
@@ -24,7 +24,7 @@ class ConfirmDialog extends React.Component {
       <FlatButton label="No" primary onTouchTap={this.props.handleNo} />
     ];
     return (
-      <BaseDialog open={this.props.open} message={this.props.message}
+      <MessageDialog open={this.props.open} message={this.props.message}
                   title={this.props.title} buttons={buttons} width={this.props.width}
       />
     );

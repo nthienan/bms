@@ -70,3 +70,15 @@ export const deleteSelectedAppliance = () => {
     }
   }
 };
+
+export const addAppliance = () => {
+  return {
+    type: ActionTypes.MODAL.SHOW,
+    modal: {
+      type: ModalTypes.ADD_APPLIANCE,
+      props: {
+        open: true,
+      }
+    }
+  }
+};

@@ -1,17 +1,18 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import ConfirmDialog from '../../ui/Dialog/ConfirmDialog/ConfirmDialog';
-import ActionTypes from '../../../actions/action-types';
-import {ModalTypes} from '../../../constant'
+import ConfirmDialog from '../../ui/Dialog/ConfirmDialog';
+import {ModalTypes} from '../../../constant';
+import AddApplianceDialog from '../../container/Appliance/AddApplianceDialog'
 
 const MODAL_COMPONENTS = {
-  [ModalTypes.CONFIRM]: ConfirmDialog
+  [ModalTypes.CONFIRM]: ConfirmDialog,
+  [ModalTypes.ADD_APPLIANCE]: AddApplianceDialog
 };
 
 class ModalRoot extends React.Component {
 
   static propTypes = {
-    type: PropTypes.string,
+    type: PropTypes.symbol,
     props: PropTypes.object,
     callback: PropTypes.object,
     dispatch: PropTypes.func

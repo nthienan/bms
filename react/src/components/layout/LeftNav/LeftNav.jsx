@@ -33,7 +33,7 @@ class LeftNav extends React.Component {
           <Link to="/">
             <MenuItem onTouchTap={this.props.onMenuItemClick}>Appliance</MenuItem>
           </Link>
-          <Link to="/about">
+          <Link to="/user">
           <MenuItem onTouchTap={this.props.onMenuItemClick}>User</MenuItem>
           </Link>
         </Drawer>

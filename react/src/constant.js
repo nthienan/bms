@@ -1,5 +1,6 @@
 export const ModalTypes = {
-  CONFIRM: 'CONFIRM'
+  CONFIRM: Symbol('CONFIRM_MODAL'),
+  ADD_APPLIANCE: Symbol('APP_APPLIANCE_MODAL')
 };
 
 export const RequestMethods = {

@@ -18,7 +18,7 @@ class CrudButtons extends React.Component {
   static defaultProps = {
     hideSearch: false,
     hideReload: false,
-    hideAdd: false,
+    hideAdd: true,
     hideRemove: true,
     touch: true
   };
@@ -35,7 +35,7 @@ class CrudButtons extends React.Component {
                     onClick={this.props.onSearch}
 
         >search</IconButton>
-        <IconButton iconClassName="material-icons" tooltip="Reload" touch={this.props.touch}
+        <IconButton iconClassName="material-icons" tooltip="Refresh" touch={this.props.touch}
                     className={this.props.hideReload ? 'hide' : null}
                     onClick={this.props.onReload}
         >cached</IconButton>
