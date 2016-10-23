@@ -4,8 +4,9 @@ import NoResultBackground from '../../ui/Background/NoResultBackground';
 import CircularLoading from '../../ui/CircularLoading/CircularLoading';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {addAppliance, loadAppliances} from '../../../actions/applaince-actions';
+import {showNewApplianceForm, loadAppliances} from '../../../actions/appliance-actions';
 import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
+import {toastr} from 'react-redux-toastr';
 
 class Appliance extends Component {
 
@@ -14,15 +15,15 @@ class Appliance extends Component {
     getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func,
     columns: PropTypes.object,
-    addAppliance: PropTypes.func
+    showNewApplianceForm: PropTypes.func
   };
 
   static defaultProps = {
     hideRemove: true,
     columns: {
-      name: 'Appliance Name',
       hostname: 'Hostname',
       ipv4Address: 'IPv4 Address',
+      note: 'Note',
       owners: 'Owners'
     }
   };
@@ -51,7 +52,7 @@ class Appliance extends Component {
     this.props.loadAppliances({
       page: this.props.appliances.page.number,
       size: pageSize,
-      sort: 'name,desc'
+      sort: 'hostname'
     });
   }
 
@@ -62,10 +63,11 @@ class Appliance extends Component {
         pageSize = e.value;
       }
     });
+    this.setState({...this.state, page: nextPage - 1});
     this.props.loadAppliances({
       page: nextPage - 1,
       size: pageSize,
-      sort: 'name,desc'
+      sort: 'hostname'
     });
   };
 
@@ -74,11 +76,25 @@ class Appliance extends Component {
       e.selected = e.value === pageSize;
       return e;
     });
-    this.setState({pageSize: [...pageSizeArr]});
+    this.setState({...this.state, pageSize: [...pageSizeArr]});
     this.props.loadAppliances({
       page: 0,
       size: pageSize,
-      sort: 'name,desc'
+      sort: 'hostname'
+    });
+  };
+
+  handleReload = () => {
+    let pageSize = 5;
+    this.state.pageSize.map(e => {
+      if(e.selected) {
+        pageSize = e.value;
+      }
+    });
+    this.props.loadAppliances({
+      page: this.state.page,
+      size: pageSize,
+      sort: 'hostname'
     });
   };
 
@@ -94,21 +110,23 @@ class Appliance extends Component {
           }
         }
       }
-      return {name: app.name, hostname: app.hostname, ipv4Address: app.ipv4Address, owners}
+      return {note: app.note, hostname: app.hostname, ipv4Address: app.ipv4Address, owners}
     });
+
     return (
       <div>
         <DataTable data={apps}
                    title="Appliances"
                    column={this.props.columns}
-                   onReload={this.props.loadAppliances}
+                   onReload={this.handleReload}
+                   onSearch={() => toastr.success('Title', 'Hahaha  asdjhhd \n hsjhasdjk jashd')}
                    handlePageClick={this.handleMovePage}
                    handlePageSizeClick={this.handlePageSizeClick}
                    total={this.props.appliances.page.totalElements}
                    page={this.props.appliances.page.number + 1}
                    pageSize={this.state.pageSize}
         />
-        <FloatingAddButton onClick={this.props.addAppliance}/>
+        <FloatingAddButton onClick={this.props.showNewApplianceForm}/>
       </div>
     );
   }
@@ -140,7 +158,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     loadAppliances: loadAppliances,
-    addAppliance: addAppliance
+    showNewApplianceForm: showNewApplianceForm
   }, dispatch);
 }
 

@@ -9,7 +9,7 @@ export const selectedAppliance = (appliances) => {
   }
 };
 
-export const loadAppliances = (params = {page: 0, size: 10, sort: 'name,desc'}) => {
+export const loadAppliances = (params = {page: 0, size: 10, sort: 'hostname,desc'}) => {
   return {
     type: ActionTypes.APPLIANCE.LOAD,
     request: {
@@ -71,7 +71,7 @@ export const deleteSelectedAppliance = () => {
   }
 };
 
-export const addAppliance = () => {
+export const showNewApplianceForm = () => {
   return {
     type: ActionTypes.MODAL.SHOW,
     modal: {
@@ -80,5 +80,12 @@ export const addAppliance = () => {
         open: true,
       }
     }
+  }
+};
+
+export const addAppliance = (appliance) => {
+  return {
+    type: ActionTypes.APPLIANCE.ADD,
+    appliance: appliance
   }
 };

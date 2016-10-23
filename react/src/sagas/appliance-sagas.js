@@ -8,8 +8,16 @@ import {
   loadAppliancesError,
   loadOwnersAppliance,
   loadOwnersApplianceSuccess
-} from '../actions/applaince-actions';
+} from '../actions/appliance-actions';
 import {callRequestError} from '../actions/request-actions';
+import {Resources, RequestMethods} from '../constant';
+import objectPath from 'object-path';
+import {toastr} from 'react-redux-toastr';
+
+const errorToastOption = {
+  timeOut: 0, // by setting to 0 it will prevent the auto close
+  removeOnHover: false
+};
 
 function* loadApplianceOwners(action) {
   if (action.appliance._links && action.appliance._links.owners) {
@@ -38,9 +46,74 @@ export function* loadApplianceSaga(action) {
   }
 }
 
+export function* addApplianceSaga(action) {
+  let appliance = {...action.appliance};
+  let ownerLinks = '';
+  if (appliance.owners && appliance.owners !== '') {
+    const ownersArr = appliance.owners.split(',');
+    for (let i = 0; i < ownersArr.length; i++) {
+      let findRequest = {
+        url: yield select(selectResourceLink, Resources.Users, 'findByUsername'),
+        header: {
+          Accept: 'application/json'
+        },
+        params: {
+          username: ownersArr[i].trim()
+        }
+      };
+      try {
+        const response = yield call(makeRequest, findRequest);
+        ownerLinks += response.body._links.self.href + '\n';
+        console.log(ownerLinks);
+      } catch (e) {
+        if (e.status !== 404) {
+          let msg = 'Cannot assign owner "' + ownersArr[i].trim() + '"';
+          yield call(toastr.error, msg, e.response.error.message, errorToastOption);
+          return;
+        }
+      }
+    }
+  }
+  objectPath.del(appliance, 'owners');
+  let postApplianceReq = {
+    method: RequestMethods.POST,
+    url: yield select(selectResourceLink, Resources.Appliances),
+    header: {
+      Accept: 'application/json'
+    },
+    body: appliance
+  };
+  try {
+    const response = yield call(makeRequest, postApplianceReq);
+    let msg = 'Appliance "' + appliance.hostname + '" has been created';
+    yield call(toastr.success, 'Successfully created', msg);
+    if (response && ownerLinks && ownerLinks.length > 0) {
+      let assignOwnerReq = {
+        method: RequestMethods.POST,
+        url: response.body._links.owners.href,
+        header: {
+          'Content-Type': 'text/uri-list'
+        },
+        body: ownerLinks
+      };
+      const assignOwnerRes = yield call(makeRequest, assignOwnerReq);
+    }
+  } catch (e) {
+    yield call(toastr.error, 'Error', e.response.error.message, errorToastOption);
+  }
+}
+
+/*----------------------------------------------------------
+ WATCH sagas
+ ------------------------------------------------------------*/
+
 export function* watchLoadAppliance() {
   yield [
     takeLatest(ActionTypes.APPLIANCE.LOAD, loadApplianceSaga),
     takeEvery(ActionTypes.APPLIANCE.LOAD_OWNERS, loadApplianceOwners)
   ]
+}
+
+export function* watchAddAppliance() {
+  yield takeEvery(ActionTypes.APPLIANCE.ADD, addApplianceSaga)
 }

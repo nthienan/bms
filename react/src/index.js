@@ -13,9 +13,10 @@ import logMiddleware from './middlewares/log-middleware';
 import resourceMiddleware from './middlewares/resource-middleware';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index-sagas';
+import ReduxToastr from 'react-redux-toastr';
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [logMiddleware, resourceMiddleware, sagaMiddleware];
+const middlewares = [resourceMiddleware, sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(rootReducers);
 sagaMiddleware.run(rootSaga);
@@ -25,11 +26,14 @@ injectTapEventPlugin();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Appliance}/>;
-        <Route path="/user" component={User}/>
-      </Route>
-    </Router>
+    <div>
+      <Router onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={Appliance}/>;
+          <Route path="/user" component={User}/>
+        </Route>
+      </Router>
+      <ReduxToastr position="bottom-right"/>
+    </div>
   </Provider>,
   document.getElementById('bms-root'));

@@ -60,6 +60,7 @@
     "react-bootstrap": "^0.30.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
+    "react-redux-toastr": "^3.8.5",
     "react-router": "^2.4.0",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",

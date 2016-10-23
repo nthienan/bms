@@ -1,10 +1,14 @@
 export const selectResourceLinks = state => state.resourceLinks;
 
-export const selectResourceLink = (state, resourceName) => {
+export const selectResourceLink = (state, resourceName, methodName) => {
   if (state.resourceLinks && state.resourceLinks._links[resourceName]) {
     let template = state.resourceLinks._links[resourceName].href;
     if (template) {
-      return template.replace(template.substring(template.indexOf('{')), '');
+      let result = template.replace(template.substring(template.indexOf('{')), '');
+      if (methodName && methodName !== '') {
+        return result + '/search/' + methodName;
+      }
+      return result;
     }
   }
   return null;

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>, 
      * @return user if exits, otherwise null
      */
     @Nullable
-    User findByUsername(@NotNull String username);
+    User findByUsername(@NotNull @Param("username") String username);
 
 }

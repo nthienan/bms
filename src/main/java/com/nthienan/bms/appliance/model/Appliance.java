@@ -24,13 +24,13 @@ import java.util.List;
 public class Appliance extends AbstractSecuredEntity<Long> {
 
     @Column(nullable = false, unique = true)
-    private String name;
-
-    @Column(nullable = false, unique = true)
     private String hostname;
 
     @Column(name = "ipv4_address", nullable = false, unique = true)
     private String ipv4Address;
+
+    @Column(length = 500)
+    private String note;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "appliance_user",
@@ -40,14 +40,6 @@ public class Appliance extends AbstractSecuredEntity<Long> {
                     @JoinColumn(name = "user_id", nullable = false)})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<User> owners;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getHostname() {
         return hostname;
@@ -72,5 +64,13 @@ public class Appliance extends AbstractSecuredEntity<Long> {
 
     public void setOwners(List<User> owners) {
         this.owners = owners;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
