@@ -108,8 +108,6 @@ class User extends Component {
                    handlePageSizeClick={this.handlePageSizeClick}
                    onReload={this.handleReload}
         />
-        <FloatingAddButton onClick={()=> {
-        }}/>
       </div>
     );
   }
@@ -122,8 +120,6 @@ class User extends Component {
       return (
         <div>
           <NoResultBackground/>
-          <FloatingAddButton onClick={()=> {
-          }}/>
         </div>
       );
     }

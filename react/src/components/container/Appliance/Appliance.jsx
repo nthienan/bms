@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {showNewApplianceForm, loadAppliances} from '../../../actions/appliance-actions';
 import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
-import {toastr} from 'react-redux-toastr';
 
 class Appliance extends Component {
 
@@ -117,7 +116,6 @@ class Appliance extends Component {
                    title="Appliances"
                    column={this.props.columns}
                    onReload={this.handleReload}
-                   onSearch={() => toastr.success('Title', 'Hahaha  asdjhhd \n hsjhasdjk jashd')}
                    handlePageClick={this.handleMovePage}
                    handlePageSizeClick={this.handlePageSizeClick}
                    total={this.props.appliances.page.totalElements}
