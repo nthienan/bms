@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
 import NoResultBackground from '../../ui/Background/NoResultBackground';
-import CircularLoading from '../../ui/CircularLoading/CircularLoading';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {showNewApplianceForm, loadAppliances} from '../../../actions/appliance-actions';
@@ -19,7 +18,6 @@ class Appliance extends Component {
   };
 
   static defaultProps = {
-    hideRemove: true,
     columns: {
       hostname: 'Hostname',
       ipv4Address: 'IPv4 Address',
@@ -32,9 +30,9 @@ class Appliance extends Component {
     super(props);
     this.state = {
       pageSize: [
-        {lable: '5 rows/page', value: 5, selected: true},
+        {lable: '5 rows/page', value: 5},
         {lable: '10 rows/page', value: 10},
-        {lable: '20 rows/page', value: 20},
+        {lable: '20 rows/page', value: 20, selected: true},
         {lable: '50 rows/page', value: 50},
         {lable: '100 rows/page', value: 100},
         {lable: '200 rows/page', value: 200},
@@ -132,9 +130,6 @@ class Appliance extends Component {
   }
 
   render() {
-    if (this.props.appliances.isLoading) {
-      return <CircularLoading show={this.props.appliances.isLoading}/>;
-    }
     if (this.props.appliances._embedded.appliances
       && this.props.appliances._embedded.appliances.length != 0) {
       return this.renderApplianceList();
@@ -142,7 +137,7 @@ class Appliance extends Component {
       return (
         <div>
           <NoResultBackground/>
-          <FloatingAddButton onClick={this.props.addAppliance}/>
+          <FloatingAddButton onClick={this.props.showNewApplianceForm}/>
         </div>
       );
     }

@@ -16,7 +16,7 @@ import rootSaga from './sagas/index-sagas';
 import ReduxToastr from 'react-redux-toastr';
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [resourceMiddleware, sagaMiddleware];
+const middlewares = [logMiddleware, resourceMiddleware, sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(rootReducers);
 sagaMiddleware.run(rootSaga);
