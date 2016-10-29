@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
-import App from './components/layout/App/App';
-import Appliance from './components/container/Appliance/Appliance';
-import User from './components/container/User/User';
+import {Router, hashHistory} from 'react-router';
+import routes from './routes';
 import rootReducers from './reducers/index-reducer';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -27,12 +25,10 @@ injectTapEventPlugin();
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
-        <Route path="/" component={App}>
-          <IndexRoute component={Appliance}/>;
-          <Route path="/user" component={User}/>
-        </Route>
-      </Router>
+      <Router history={hashHistory}
+              onUpdate={() => window.scrollTo(0, 0)}
+              routes={routes}
+      />
       <ReduxToastr position="bottom-right"/>
     </div>
   </Provider>,
