@@ -15,7 +15,10 @@ class FormDialog extends React.Component {
     title: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     children: PropTypes.node.isRequired,
-    titleStyle: PropTypes.object
+    titleStyle: PropTypes.object,
+    footerStyle: PropTypes.object,
+    bodyStyle: PropTypes.object,
+    autoScrollBodyContent: PropTypes.bool
   };
 
   static defaultProps = {
@@ -24,7 +27,8 @@ class FormDialog extends React.Component {
     width: 500,
     titleStyle: {
       fontSize: 'inherit'
-    }
+    },
+    autoScrollBodyContent: true
   };
 
   render() {
@@ -35,8 +39,8 @@ class FormDialog extends React.Component {
       <Dialog
         title={this.props.title} modal={this.props.modal} actions={this.props.buttons}
         open={this.props.open} onRequestClose={this.props.onRequestClose}
-        contentStyle={style} titleStyle={this.props.titleStyle}
-        autoScrollBodyContent={true}
+        contentStyle={style} titleStyle={this.props.titleStyle} bodyStyle={this.props.bodyStyle}
+        autoScrollBodyContent={this.props.autoScrollBodyContent} actionsContainerStyle={this.props.footerStyle}
       >
         {this.props.children}
       </Dialog>

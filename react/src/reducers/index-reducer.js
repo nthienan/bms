@@ -1,16 +1,20 @@
-import { combineReducers } from 'redux';
-import applianceReducer from './appliance-reducer';
-import modalReducer from './modal-reduxcer';
-import resourceReducer from './resource-reducer';
-import userReducer from './user-reducer';
-import {reducer as toastrReducer} from 'react-redux-toastr';
+import {combineReducers} from 'redux';
+import appliances from './appliance-reducer';
+import modal from './modal-reduxcer';
+import resourceLinks from './resource-reducer';
+import users from './user-reducer';
+import auth from './auth-reducer';
+import {reducer as toastr} from 'react-redux-toastr';
+import {reducer as form} from 'redux-form';
 
 const rootReducer = combineReducers({
-  toastr: toastrReducer,
-  appliances: applianceReducer,
-  users: userReducer,
-  modal: modalReducer,
-  resourceLinks: resourceReducer
+  toastr,
+  form,
+  appliances,
+  users,
+  modal,
+  resourceLinks,
+  auth
 });
 
 export default rootReducer;

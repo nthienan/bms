@@ -30,6 +30,16 @@ const actionTypes = {
   },
   ERROR: {
     RUNTIME: 'RUNTIME_ERROR'
+  },
+  AUTH: {
+    SIGN_IN: {
+      SUCCESS: '@bms/auth/sign-in/success',
+      FAILURE: '@bms/auth/sign-in/failure'
+    },
+    SIGN_OUT: {
+      SUCCESS: '@bms/auth/sign-out/success',
+      FAILURE: '@bms/auth/sign-out/failure'
+    }
   }
 };
 export default actionTypes;
