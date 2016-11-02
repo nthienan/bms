@@ -9,16 +9,14 @@ const resourceMiddleware = store => next => action => {
     const resourceLinks = selectResourceLinks(store.getState());
     if (!resourceLinks || !resourceLinks._links) {
       const {request, success, error} = getResourceLinks();
-      makeRequest(request).then(res => {
-        if (!res.error) {
-          store.dispatch(getResourceLinksSuccess(res.body));
-          next(action);
-        } else {
-          store.dispatch(getResourceLinksError(res));
-        }
-      }).catch(err => {
-        store.dispatch(callRequestError(err));
-      });
+      const successCallback = res => {
+        store.dispatch(getResourceLinksSuccess(res.body));
+        next(action);
+      };
+      const failureCallback = err => {
+        store.dispatch(getResourceLinksError(err));
+      };
+      makeRequest(request, successCallback, failureCallback);
     } else {
       next(action);
     }

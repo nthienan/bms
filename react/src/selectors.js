@@ -1,6 +1,12 @@
+import {Resources} from './constant';
+import {getBaseUrl} from './config';
+
 export const selectResourceLinks = state => state.resourceLinks;
 
 export const selectResourceLink = (state, resourceName, methodName) => {
+  if(resourceName === Resources.Authentication) {
+    return getBaseUrl() + '/oauth/token';
+  }
   if (state.resourceLinks && state.resourceLinks._links[resourceName]) {
     let template = state.resourceLinks._links[resourceName].href;
     if (template) {
@@ -13,3 +19,5 @@ export const selectResourceLink = (state, resourceName, methodName) => {
   }
   return null;
 };
+
+export const selectLocationBeforeAuth = state => state.auth.location;

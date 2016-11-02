@@ -32,14 +32,14 @@ const actionTypes = {
     RUNTIME: 'RUNTIME_ERROR'
   },
   AUTH: {
-    SIGN_IN: {
-      SUCCESS: '@bms/auth/sign-in/success',
-      FAILURE: '@bms/auth/sign-in/failure'
-    },
-    SIGN_OUT: {
-      SUCCESS: '@bms/auth/sign-out/success',
-      FAILURE: '@bms/auth/sign-out/failure'
-    }
+    AUTHENTICATED: '@bms/auth/authenticated',
+    SIGN_IN: '@bms/auth/sign-in',
+    SIGN_IN_SUCCESS: '@bms/auth/sign-in-success',
+    SIGN_IN_FAILURE: '@bms/auth/sign-in-failure',
+    SIGN_IN_DIRECTION: '@bms/auth/sign-in-direction',
+    SIGN_OUT: '@bms/auth/sign-out',
+    SIGN_OUT_SUCCESS: '@bms/auth/sign-out-success',
+    SIGN_OUT_FAILURE: '@bms/auth/sign-out-failure'
   }
 };
 export default actionTypes;

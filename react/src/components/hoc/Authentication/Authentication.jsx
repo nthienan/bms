@@ -1,12 +1,17 @@
 import React, {Component, PropTypes} from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {goToSignIn, authenticated} from '../../../actions/auth-actions';
 
 export default function (ComposedComponent) {
 
   class Authentication extends Component {
 
     static propTypes = {
-      authenticated: PropTypes.bool.isRequired
+      authenticated: PropTypes.bool.isRequired,
+      location: PropTypes.object,
+      goToSignIn: PropTypes.func.isRequired,
+      authenticatedFun: PropTypes.func
     };
 
     static contextTypes = {
@@ -18,20 +23,25 @@ export default function (ComposedComponent) {
     }
 
     componentWillMount() {
-      if (!this.props.authenticated) {
-        this.context.router.push('/sign-in');
-      }
-      if (typeof localStorage.getItem('accessToken') === 'undefined') {
-        console.log('Log out');
-      }
+      this.handleAuthentication();
     }
 
     componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
+      this.handleAuthentication();
+    }
+
+    handleAuthentication() {
+      if (!localStorage.getItem('auth')) {
+        this.props.goToSignIn(this.props.location);
         this.context.router.push('/sign-in');
-      }
-      if (typeof localStorage.getItem('accessToken') === 'undefined') {
-        console.log('Log out');
+      } else {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        if (!auth['refresh_token']) {
+          this.props.goToSignIn(this.props.location);
+          this.context.router.push('/sign-in');
+        } else {
+          this.props.authenticatedFun(true);
+        }
       }
     }
 
@@ -49,6 +59,13 @@ export default function (ComposedComponent) {
     }
   }
 
-  return connect(mapStateToProps)(Authentication)
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+      goToSignIn,
+      authenticatedFun: authenticated
+    }, dispatch);
+  }
+
+  return connect(mapStateToProps, mapDispatchToProps)(Authentication)
 }
 

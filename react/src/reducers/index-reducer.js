@@ -6,10 +6,12 @@ import users from './user-reducer';
 import auth from './auth-reducer';
 import {reducer as toastr} from 'react-redux-toastr';
 import {reducer as form} from 'redux-form';
+import {routerReducer} from 'react-router-redux';
 
 const rootReducer = combineReducers({
   toastr,
   form,
+  routing: routerReducer,
   appliances,
   users,
   modal,

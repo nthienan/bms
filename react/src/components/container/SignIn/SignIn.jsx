@@ -4,6 +4,11 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FormDialog from '../../ui/Dialog/FormDialog';
 import Link from 'react-router/lib/Link';
+import {bindActionCreators} from 'redux';
+import {signIn, authenticated} from '../../../actions/auth-actions';
+import {connect} from 'react-redux';
+import ErrorMessage from '../../ui/ErrorMessage/ErrorMessage';
+import {replace} from 'react-router-redux';
 
 /**
  * SignIn class
@@ -21,6 +26,14 @@ class SignIn extends React.Component {
     open: PropTypes.bool,
     hideModal: PropTypes.func,
     style: PropTypes.object,
+    previousLocation: PropTypes.object,
+    formInfo: PropTypes.object,
+    authenticatedFun: PropTypes.func,
+    replace: PropTypes.func
+  };
+
+  static contextTypes = {
+    router: PropTypes.object
   };
 
   static defaultProps = {
@@ -44,8 +57,29 @@ class SignIn extends React.Component {
     super(props);
   }
 
-  handleLogin = (user) => {
-    console.log(user);
+  componentWillMount() {
+    this.verifyAuthentication();
+  }
+
+  componentWillUpdate(nextProps) {
+    this.verifyAuthentication();
+  }
+
+  verifyAuthentication() {
+    if (localStorage.getItem('auth')) {
+      const auth = JSON.parse(localStorage.getItem('auth'));
+      if (auth['refresh_token']) {
+        this.props.authenticatedFun(true);
+        this.props.replace('/');
+      }
+    }
+  }
+
+  handleLogin = () => {
+    if (this.props.formInfo.values) {
+      const {loginName, password} = this.props.formInfo.values;
+      this.props.signIn(loginName, password);
+    }
   };
 
   renderTextField = ({input, label, meta: {touched, error}, ...custom}) => (
@@ -63,21 +97,38 @@ class SignIn extends React.Component {
       padding: '15px 0',
       textAlign: 'center'
     };
+    let footerArr = [
+      <RaisedButton label="Sign In" primary fullWidth
+                    onTouchTap={this.handleLogin}
+      />,
+      <div style={divStyle}>
+        Don't have an account?
+        <Link to="/sign-up"> Sign up</Link>
+      </div>
+    ];
+    if (this.props.errorMessage && this.props.errorMessage !== '') {
+      footerArr.splice(0, 0, this.renderError());
+    }
+    return footerArr;
+  }
+
+  renderError() {
+    const errorMsgStyle = {
+      fontStyle: 'italic',
+      lineHeight: '1.6',
+      fontSize: '15.5px',
+      color: '#ffffff',
+      padding: '5px',
+      textAlign: 'center'
+    };
     return (
-      [
-        <RaisedButton label="Sign In" primary type="submit"
-                      fullWidth={true}
-        />,
-        <div style={divStyle}>
-          Don't have an account?
-          <Link to="/sign-up"> Sign up</Link>
-        </div>
-      ]
+      <ErrorMessage message={this.props.errorMessage}
+                    textStyle={errorMsgStyle}
+      />
     );
   }
 
   render() {
-    const {handleSubmit, submitting, pristine}  = this.props;
     return (
       <FormDialog open={true} title="WELCOME TO BMS" width="35%"
                   buttons={this.renderFooter()}
@@ -96,21 +147,25 @@ class SignIn extends React.Component {
         </div>
       </FormDialog>
     )
-
   }
 }
 
 function mapStateToProps(state) {
   return {
-    initialValues: {
-      loginName: '',
-      password: ''
-    },
     authenticated: state.auth.authenticated,
-    errorMessage: state.auth.errorMessage
+    errorMessage: state.auth.errorMessage,
+    previousLocation: state.auth.location,
+    formInfo: state.form.signIn
   }
 }
 
-export default reduxForm({
-  form: 'signIn',
-}, mapStateToProps)(SignIn);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    signIn,
+    authenticatedFun: authenticated,
+    replace
+  }, dispatch);
+}
+
+const signInForm = reduxForm({form: 'signIn'})(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(signInForm);

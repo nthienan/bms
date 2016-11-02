@@ -12,9 +12,10 @@ import resourceMiddleware from './middlewares/resource-middleware';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index-sagas';
 import ReduxToastr from 'react-redux-toastr';
+import {syncHistoryWithStore, routerMiddleware} from 'react-router-redux';
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [logMiddleware, resourceMiddleware, sagaMiddleware];
+const middlewares = [logMiddleware, resourceMiddleware, routerMiddleware(hashHistory), sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(rootReducers);
 sagaMiddleware.run(rootSaga);
@@ -22,10 +23,11 @@ sagaMiddleware.run(rootSaga);
 // Needed for onTouchTap refer http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+const history = syncHistoryWithStore(hashHistory, store);
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router history={hashHistory}
+      <Router history={history}
               onUpdate={() => window.scrollTo(0, 0)}
               routes={routes}
       />
