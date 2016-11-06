@@ -77,8 +77,5 @@ jar {
 /*---------------------------------------------
 ------------------- Tasks ---------------------
 -----------------------------------------------*/
-bootRun.dependsOn(':react:production')
-build.dependsOn(':react:production')
-war.dependsOn(':react:production')
-jar.dependsOn(':react:production')
+processResources.dependsOn(':react:production')
 clean.dependsOn(':react:clean')

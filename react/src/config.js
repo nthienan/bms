@@ -19,5 +19,5 @@ export function getAuthenticationUrl() {
 }
 
 export const appAuthentication = {
-  id: 'bms', secret: 's3cr3t'
+  id: 'bms', secret: '33jJcZ4Fz3jC5Sv!E4q6JDs'
 };
