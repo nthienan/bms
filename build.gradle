@@ -1,6 +1,16 @@
 group 'com.nthienan'
 version '0.1.0-SNAPSHOT'
 
+buildscript {
+  evaluationDependsOnChildren()
+  dependencies {
+    classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+}
+
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'spring-boot'
@@ -8,95 +18,67 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+/*---------------------------------------------
+-------------- Dependencies -------------------
+-----------------------------------------------*/
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
-    compile 'org.springframework.security:spring-security-acl:4.1.0.RELEASE'
-    compile 'org.springframework:spring-context-support'
-    compile 'org.springframework:spring-jdbc'
-    compile 'org.springframework.hateoas:spring-hateoas'
-    compile 'org.springframework.data:spring-data-rest-webmvc'
-    compile 'org.springframework.boot:spring-boot-devtools'
-    compile 'mysql:mysql-connector-java'
-    compile 'commons-lang:commons-lang:2.6'
-    compile 'org.jetbrains:annotations:15.0'
-    compile 'org.apache.commons:commons-collections4:4.1'
-    compile 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
-    compile 'com.google.guava:guava:19.0'
-    compile 'net.sf.ehcache:ehcache:2.10.2'
-    compile 'net.sf.ehcache:ehcache-core:2.6.11'
-    compile "org.flywaydb:flyway-core:4.0.3"
+  compile 'org.springframework.boot:spring-boot-starter-web'
+  compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+  compile 'org.springframework.boot:spring-boot-starter-jdbc'
+  compile 'org.springframework.boot:spring-boot-starter-security'
+  compile 'org.springframework.security.oauth:spring-security-oauth2'
+  compile 'org.springframework.security:spring-security-acl:4.1.0.RELEASE'
+  compile 'org.springframework:spring-context-support'
+  compile 'org.springframework:spring-jdbc'
+  compile 'org.springframework.hateoas:spring-hateoas'
+  compile 'org.springframework.data:spring-data-rest-webmvc'
+  compile 'org.springframework.boot:spring-boot-devtools'
+  compile 'mysql:mysql-connector-java'
+  compile 'commons-lang:commons-lang:2.6'
+  compile 'org.jetbrains:annotations:15.0'
+  compile 'org.apache.commons:commons-collections4:4.1'
+  compile 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
+  compile 'com.google.guava:guava:19.0'
+  compile 'net.sf.ehcache:ehcache:2.10.2'
+  compile 'net.sf.ehcache:ehcache-core:2.6.11'
+  compile "org.flywaydb:flyway-core:4.0.3"
 
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+  testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
+/*---------------------------------------------
+-------------- Configurations -----------------
+-----------------------------------------------*/
 configurations {
-    providedRuntime
+  providedRuntime
 }
-
 bootRun {
-    addResources true
+  addResources true
 }
-
 bootRepackage {
-    mainClass 'com.nthienan.bms.Application'
-    excludeDevtools true
+  mainClass 'com.nthienan.bms.Application'
+  excludeDevtools true
 }
-
 jar {
-    manifest {
-        attributes 'Main-Class': 'com.nthienan.bms.Application'
-    }
+  manifest {
+    attributes 'Main-Class': 'com.nthienan.bms.Application'
+  }
 }
 
-buildscript {
-    dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-}
-
-task reactProduction(type: Exec) {
-    group 'react'
-    description 'Build React in production mode'
-    workingDir './react'
-    commandLine 'cmd', '/c', 'npm', 'run', 'prod'
-}
-//bootRun.dependsOn reactProduction
-bootRepackage.dependsOn reactProduction
-build.dependsOn reactProduction
-war.dependsOn reactProduction
-jar.dependsOn reactProduction
-
-task reactClean(type: Delete) {
-    group 'react'
-    description 'Clean react dir.'
-    delete 'src/main/resources/public'
-}
-clean.dependsOn reactClean
-reactProduction.dependsOn reactClean
-
-task npmClean(type: Delete) {
-    group 'npm'
-    description 'Clean npm modules'
-    delete 'react/node_modules'
-}
-
-task npmInstall(type: Exec) {
-    group 'npm'
-    description 'Install npm modules'
-    workingDir './react'
-    commandLine 'cmd', '/c', 'npm', 'install'
-}
+/*---------------------------------------------
+------------------- Tasks ---------------------
+-----------------------------------------------*/
+bootRun.dependsOn(':react:production')
+build.dependsOn(':react:production')
+war.dependsOn(':react:production')
+jar.dependsOn(':react:production')
+clean.dependsOn(':react:clean')

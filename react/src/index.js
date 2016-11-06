@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
-import App from './components/layout/App/App';
-import Appliance from './components/container/Appliance/Appliance';
-import User from './components/container/User/User';
+import {Router, hashHistory} from 'react-router';
+import routes from './routes';
 import rootReducers from './reducers/index-reducer';
 import './components/bundle.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -14,9 +12,10 @@ import resourceMiddleware from './middlewares/resource-middleware';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index-sagas';
 import ReduxToastr from 'react-redux-toastr';
+import {syncHistoryWithStore, routerMiddleware} from 'react-router-redux';
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [resourceMiddleware, sagaMiddleware];
+const middlewares = [logMiddleware, resourceMiddleware, routerMiddleware(hashHistory), sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(rootReducers);
 sagaMiddleware.run(rootSaga);
@@ -24,15 +23,14 @@ sagaMiddleware.run(rootSaga);
 // Needed for onTouchTap refer http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+const history = syncHistoryWithStore(hashHistory, store);
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
-        <Route path="/" component={App}>
-          <IndexRoute component={Appliance}/>;
-          <Route path="/user" component={User}/>
-        </Route>
-      </Router>
+      <Router history={history}
+              onUpdate={() => window.scrollTo(0, 0)}
+              routes={routes}
+      />
       <ReduxToastr position="bottom-right"/>
     </div>
   </Provider>,

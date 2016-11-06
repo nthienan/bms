@@ -29,7 +29,7 @@ public class Group extends AbstractEntity<Long> {
             @JoinColumn(name = "user_id", nullable = false)
     })
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    Set<User> users;
+    private Set<User> users;
 
     @Column(name = "group_name", nullable = false, unique = true)
     private String groupName;
