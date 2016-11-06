@@ -48,13 +48,13 @@ task clean(type: Delete) {
 }
 production.dependsOn clean
 
-task development(type: NpmTask) {
+task dev(type: NpmTask) {
   group 'react'
   description 'Run front-end in development mode'
   args = ['run', 'dev']
 }
 
-task test(type: NpmTask) {
+task estest(type: NpmTask) {
   group 'react'
   description 'Run test front-end'
   args = ['run', 'test']
