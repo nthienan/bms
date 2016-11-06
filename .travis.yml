@@ -1,3 +1,15 @@
 language: java
 jdk:
   - oraclejdk8
+install:
+  - ./gradlew clean
+  - ./gradlew npmInstall
+before_script:
+  - ./gradlew test
+  - ./gradlew :react:lint
+  - ./gradlew jar
+  - ./gradlew war
+  - ./gradlew bootRepackage
+after_script:
+  - ./gradlew javadoc
+  - ./gradlew :react:doc

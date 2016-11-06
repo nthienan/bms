@@ -1,2 +1,3 @@
+include 'react'
 rootProject.name = 'bms'
 

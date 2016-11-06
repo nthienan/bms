@@ -1,0 +1,79 @@
+buildscript {
+  dependencies {
+    classpath "com.moowork.gradle:gradle-node-plugin:0.13"
+  }
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+}
+
+apply plugin: 'com.moowork.node'
+
+/*---------------------------------------------
+-------------- Configurations -----------------
+-----------------------------------------------*/
+node {
+  // Version of node to use.
+  version = '4.1.0'
+  // Version of npm to use.
+  npmVersion = '3.10.6'
+  // Base URL for fetching node distributions (change if you have a mirror).
+  distBaseUrl = 'https://nodejs.org/dist'
+  // If true, it will download node using above parameters.
+  // If false, it will try to use globally installed node.
+  download = true
+  // Set the work directory for unpacking node
+  workDir = file("${project.projectDir}/nodejs")
+  // Set the work directory where node_modules should be located
+  nodeModulesDir = file("${project.projectDir}")
+}
+
+/*---------------------------------------------
+------------------- Tasks ---------------------
+-----------------------------------------------*/
+
+task production(type: NpmTask) {
+  group 'react'
+  description 'Build React in production mode'
+  args = ['run', 'prod']
+}
+production.dependsOn npmInstall
+
+task clean(type: Delete) {
+  group 'react'
+  description 'Clean react dir.'
+  delete '../src/main/resources/public'
+}
+production.dependsOn clean
+
+task development(type: NpmTask) {
+  group 'react'
+  description 'Run front-end in development mode'
+  args = ['run', 'dev']
+}
+
+task test(type: NpmTask) {
+  group 'react'
+  description 'Run test front-end'
+  args = ['run', 'test']
+}
+
+task lint(type: NpmTask) {
+  group 'react'
+  description 'Run lint of front-end'
+  args = ['run', 'lint']
+}
+
+task doc(type: NpmTask) {
+  group 'react'
+  description 'Generate doc for front-end'
+  args = ['run', 'doc']
+}
+
+task npmClean(type: Delete) {
+  group 'node'
+  description 'Clean npm modules'
+  delete './node_modules'
+}
