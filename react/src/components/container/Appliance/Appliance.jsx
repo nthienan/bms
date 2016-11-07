@@ -1,10 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import DataTable from '../../ui/DataTable/DataTable';
+import DataTableBody from '../../ui/DataTable/DataTableBody';
+import {TableRow, TableRowColumn} from 'material-ui/Table';
 import NoResultBackground from '../../ui/Background/NoResultBackground';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {showNewApplianceForm, loadAppliances} from '../../../actions/appliance-actions';
 import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
+import {Link} from 'react-router';
+import Airplay from 'material-ui/svg-icons/av/airplay';
+import Delete from 'material-ui/svg-icons/action/delete';
+import IconButton from 'material-ui/IconButton';
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 
 class Appliance extends Component {
 
@@ -12,16 +19,17 @@ class Appliance extends Component {
     appliances: PropTypes.object.isRequired,
     getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func,
-    columns: PropTypes.object,
+    column: PropTypes.object,
     showNewApplianceForm: PropTypes.func
   };
 
   static defaultProps = {
-    columns: {
+    column: {
       hostname: 'Hostname',
       ipv4Address: 'IPv4 Address',
       note: 'Note',
-      owners: 'Owners'
+      owners: 'Owners',
+      actions: 'Actions'
     }
   };
 
@@ -42,7 +50,7 @@ class Appliance extends Component {
   componentWillMount() {
     let pageSize = 5;
     this.state.pageSize.map(e => {
-      if(e.selected) {
+      if (e.selected) {
         pageSize = e.value;
       }
     });
@@ -56,7 +64,7 @@ class Appliance extends Component {
   handleMovePage = (nextPage) => {
     let pageSize = 5;
     this.state.pageSize.map(e => {
-      if(e.selected) {
+      if (e.selected) {
         pageSize = e.value;
       }
     });
@@ -84,7 +92,7 @@ class Appliance extends Component {
   handleReload = () => {
     let pageSize = 5;
     this.state.pageSize.map(e => {
-      if(e.selected) {
+      if (e.selected) {
         pageSize = e.value;
       }
     });
@@ -94,6 +102,30 @@ class Appliance extends Component {
       sort: 'hostname'
     });
   };
+
+  renderRow(row, index) {
+    return (
+      <TableRow key={index} selected={row.selected}>
+        {Object.keys(this.props.column).map((key, i) => {
+          if (key != 'actions') {
+            return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
+          }
+          return (
+            <TableRowColumn key={i}>
+              <IconButton>
+                <Airplay />
+              </IconButton>
+              <IconButton>
+                <ModeEdit />
+              </IconButton>
+              <IconButton>
+                <Delete />
+              </IconButton>
+            </TableRowColumn>);
+        })}
+      </TableRow>
+    );
+  }
 
   renderApplianceList() {
     const apps = this.props.appliances._embedded.appliances.map(app => {
@@ -112,16 +144,21 @@ class Appliance extends Component {
 
     return (
       <div>
-        <DataTable data={apps}
-                   title="Appliances"
-                   column={this.props.columns}
+        <DataTable title="Appliances"
                    onReload={this.handleReload}
-                   handlePageClick={this.handleMovePage}
-                   handlePageSizeClick={this.handlePageSizeClick}
-                   total={this.props.appliances.page.totalElements}
-                   page={this.props.appliances.page.number + 1}
-                   pageSize={this.state.pageSize}
-        />
+        >
+          <DataTableBody column={this.props.column}
+                         total={this.props.appliances.page.totalElements}
+                         page={this.props.appliances.page.number + 1}
+                         handlePageClick={this.handleMovePage}
+                         handlePageSizeClick={this.handlePageSizeClick}
+                         pageSize={this.state.pageSize}
+          >
+            {apps.map((row, index) =>
+              this.renderRow(row, index)
+            )}
+          </DataTableBody>
+        </DataTable>
         <FloatingAddButton onClick={this.props.showNewApplianceForm}/>
       </div>
     );
