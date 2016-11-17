@@ -5,22 +5,25 @@ import {TableRow, TableRowColumn} from 'material-ui/Table';
 import NoResultBackground from '../../ui/Background/NoResultBackground';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {showNewApplianceForm, loadAppliances} from '../../../actions/appliance-actions';
+import {showNewApplianceForm, loadAppliances, showEditApplianceForm} from '../../../actions/appliance-actions';
 import FloatingAddButton from '../../ui/Button/FloatingAddButton/FloatingAddButton';
 import {Link} from 'react-router';
 import Airplay from 'material-ui/svg-icons/av/airplay';
 import Delete from 'material-ui/svg-icons/action/delete';
 import IconButton from 'material-ui/IconButton';
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 
-class Appliance extends Component {
+class ApplianceList extends Component {
 
   static propTypes = {
     appliances: PropTypes.object.isRequired,
     getResourceLinks: PropTypes.func,
     loadAppliances: PropTypes.func,
     column: PropTypes.object,
-    showNewApplianceForm: PropTypes.func
+    showNewApplianceForm: PropTypes.func,
+    showEditApplianceForm: PropTypes.func
   };
 
   static defaultProps = {
@@ -37,12 +40,12 @@ class Appliance extends Component {
     super(props);
     this.state = {
       pageSize: [
-        {lable: '5 rows/page', value: 5},
-        {lable: '10 rows/page', value: 10},
-        {lable: '20 rows/page', value: 20, selected: true},
-        {lable: '50 rows/page', value: 50},
-        {lable: '100 rows/page', value: 100},
-        {lable: '200 rows/page', value: 200},
+        {label: '5 rows/page', value: 5},
+        {label: '10 rows/page', value: 10},
+        {label: '20 rows/page', value: 20, selected: true},
+        {label: '50 rows/page', value: 50},
+        {label: '100 rows/page', value: 100},
+        {label: '200 rows/page', value: 200},
       ]
     }
   }
@@ -104,44 +107,44 @@ class Appliance extends Component {
   };
 
   renderRow(row, index) {
+    let owners = this.props.appliances.owners[row._links.self.href];
+    let users = [];
+    if (owners) {
+      users = owners._embedded.users;
+    }
     return (
       <TableRow key={index} selected={row.selected}>
-        {Object.keys(this.props.column).map((key, i) => {
-          if (key != 'actions') {
-            return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
-          }
-          return (
-            <TableRowColumn key={i}>
-              <IconButton>
-                <Airplay />
-              </IconButton>
-              <IconButton>
-                <ModeEdit />
-              </IconButton>
-              <IconButton>
-                <Delete />
-              </IconButton>
-            </TableRowColumn>);
-        })}
+        <TableRowColumn>{row.hostname}</TableRowColumn>;
+        <TableRowColumn>{row.ipv4Address}</TableRowColumn>;
+        <TableRowColumn>{row.note}</TableRowColumn>;
+        <TableRowColumn>
+          {users.map((u, i) => {
+            return (
+              <Chip style={{margin: 5}}>
+                <Avatar>{u.firstName[0]}</Avatar>
+                {u.firstName}
+              </Chip>
+            );
+          })}
+        </TableRowColumn>;
+        <TableRowColumn>
+          <IconButton>
+            <Airplay />
+          </IconButton>
+          <IconButton onTouchTap={(e) => {
+            this.props.showEditApplianceForm(row, users);
+          }}>
+            <ModeEdit />
+          </IconButton>
+          <IconButton>
+            <Delete />
+          </IconButton>
+        </TableRowColumn>);
       </TableRow>
     );
   }
 
   renderApplianceList() {
-    const apps = this.props.appliances._embedded.appliances.map(app => {
-      let owners = '';
-      if (app.owners) {
-        for (let i = 0; i < app.owners._embedded.users.length; i++) {
-          if (i !== app.owners._embedded.users.length - 1) {
-            owners += app.owners._embedded.users[i].firstName + ', ';
-          } else {
-            owners += app.owners._embedded.users[i].firstName;
-          }
-        }
-      }
-      return {note: app.note, hostname: app.hostname, ipv4Address: app.ipv4Address, owners}
-    });
-
     return (
       <div>
         <DataTable title="Appliances"
@@ -154,7 +157,7 @@ class Appliance extends Component {
                          handlePageSizeClick={this.handlePageSizeClick}
                          pageSize={this.state.pageSize}
           >
-            {apps.map((row, index) =>
+            {this.props.appliances._embedded.appliances.map((row, index) =>
               this.renderRow(row, index)
             )}
           </DataTableBody>
@@ -188,8 +191,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     loadAppliances: loadAppliances,
-    showNewApplianceForm: showNewApplianceForm
+    showNewApplianceForm: showNewApplianceForm,
+    showEditApplianceForm: showEditApplianceForm
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Appliance);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplianceList);

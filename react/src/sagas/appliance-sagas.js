@@ -7,10 +7,11 @@ import {
   loadAppliancesSuccess,
   loadAppliancesError,
   loadOwnersAppliance,
-  loadOwnersApplianceSuccess
+  loadOwnersApplianceSuccess,
+  loadAppliancesById,
+  editApplianceSuccess
 } from '../actions/appliance-actions';
-import {callRequestError} from '../actions/request-actions';
-import {Resources, RequestMethods} from '../constant';
+import {Resources, RequestMethods, Header} from '../constant';
 import objectPath from 'object-path';
 import {toastr} from 'react-redux-toastr';
 
@@ -42,39 +43,78 @@ export function* loadApplianceSaga(action) {
   }
 }
 
+export function* loadApplianceByIdSaga(action) {
+  let url = yield select(selectResourceLink, Resources.Appliances);
+  let req = {
+    method: RequestMethods.GET,
+    url: url + `/${action.applianceId}`,
+    header: {
+      [Header.Accept]: 'application/json'
+    }
+  };
+  try {
+    const res = yield call(makeRequest, req);
+    yield put(yield call(loadOwnersAppliance, res.body));
+  } catch (e) {
+    yield call(toastr.error, 'Error', e.response.error.message, errorToastOption);
+  }
+}
+
+function* getOwnerUriList(owners) {
+  let ownerLinks = '';
+  const ownersArr = owners.split(',');
+  for (let i = 0; i < ownersArr.length; i++) {
+    let findRequest = {
+      url: yield select(selectResourceLink, Resources.Users, 'findByUsername'),
+      header: {
+        Accept: 'application/json'
+      },
+      params: {
+        username: ownersArr[i].trim()
+      }
+    };
+    try {
+      const response = yield call(makeRequest, findRequest);
+      ownerLinks += response.body._links.self.href + '\n';
+    } catch (e) {
+      if (e.status !== 404) {
+        let msg = 'There was an error at "' + ownersArr[i].trim() + '"';
+        yield call(toastr.error, msg, e.response.error.message, errorToastOption);
+      }
+    }
+  }
+  return ownerLinks;
+}
+
+function *assignOwner(appliance, ownerLinks) {
+  let req = {
+    method: RequestMethods.PUT,
+    url: appliance._links.owners.href,
+    header: {
+      [Header.ContentType]: 'text/uri-list'
+    },
+    body: ownerLinks
+  };
+  try {
+    const rep = yield call(makeRequest, req);
+  } catch (e) {
+    let msg = `Cannot assign owners for appliance ${appliance.hostname}`;
+    yield call(toastr.error, msg, e.response.error.message, errorToastOption);
+  }
+}
+
 export function* addApplianceSaga(action) {
   let appliance = {...action.appliance};
   let ownerLinks = '';
   if (appliance.owners && appliance.owners !== '') {
-    const ownersArr = appliance.owners.split(',');
-    for (let i = 0; i < ownersArr.length; i++) {
-      let findRequest = {
-        url: yield select(selectResourceLink, Resources.Users, 'findByUsername'),
-        header: {
-          Accept: 'application/json'
-        },
-        params: {
-          username: ownersArr[i].trim()
-        }
-      };
-      try {
-        const response = yield call(makeRequest, findRequest);
-        ownerLinks += response.body._links.self.href + '\n';
-      } catch (e) {
-        if (e.status !== 404) {
-          let msg = 'Cannot assign owner "' + ownersArr[i].trim() + '"';
-          yield call(toastr.error, msg, e.response.error.message, errorToastOption);
-          return;
-        }
-      }
-    }
+    ownerLinks = yield getOwnerUriList(appliance.owners);
   }
   objectPath.del(appliance, 'owners');
   let postApplianceReq = {
     method: RequestMethods.POST,
     url: yield select(selectResourceLink, Resources.Appliances),
     header: {
-      Accept: 'application/json'
+      [Header.Accept]: 'application/json'
     },
     body: appliance
   };
@@ -83,19 +123,36 @@ export function* addApplianceSaga(action) {
     let msg = 'Appliance "' + appliance.hostname + '" has been created';
     yield call(toastr.success, 'Successfully created', msg);
     if (response && ownerLinks && ownerLinks.length > 0) {
-      let assignOwnerReq = {
-        method: RequestMethods.POST,
-        url: response.body._links.owners.href,
-        header: {
-          'Content-Type': 'text/uri-list'
-        },
-        body: ownerLinks
-      };
-      const assignOwnerRes = yield call(makeRequest, assignOwnerReq);
+      yield assignOwner(response.body, ownerLinks);
     }
   } catch (e) {
     yield call(toastr.error, 'Error', e.response.error.message, errorToastOption);
   }
+}
+
+export function* editApplianceSaga(action) {
+  let {appliance, owners} = action;
+  let req = {
+    method: RequestMethods.PUT,
+    url: appliance._links.self.href,
+    header: {
+      [Header.ContentType]: 'application/json',
+      [Header.Accept]: 'application/json'
+    },
+    body: appliance
+  };
+  try {
+    const res = yield call(makeRequest, req);
+    let ownerLinks = yield getOwnerUriList(owners);
+    yield assignOwner(appliance, ownerLinks);
+    yield put(yield call(loadAppliancesById, res.body.id));
+    yield put(yield call(editApplianceSuccess, res.body));
+    let msg = 'Appliance "' + appliance.hostname + '" has been updated';
+    yield call(toastr.success, 'Successful', msg);
+  } catch (e) {
+    yield call(toastr.error, 'Error', e.response.error.message, errorToastOption);
+  }
+
 }
 
 /*----------------------------------------------------------
@@ -111,4 +168,12 @@ export function* watchLoadAppliance() {
 
 export function* watchAddAppliance() {
   yield takeEvery(ActionTypes.APPLIANCE.ADD, addApplianceSaga)
+}
+
+export function* watchEditAppliance() {
+  yield takeEvery(ActionTypes.APPLIANCE.EDIT, editApplianceSaga)
+}
+
+export function* watchLoadApplianceById() {
+  yield takeEvery(ActionTypes.APPLIANCE.LOAD_BY_ID, loadApplianceByIdSaga)
 }

@@ -87,7 +87,7 @@ class Pagination extends React.Component {
       >
         {
           this.props.pageSize.map((e, i) =>
-            <MenuItem key={i} value={e.value} primaryText={e.lable}/>)
+            <MenuItem key={i} value={e.value} primaryText={e.label}/>)
         }
       </DropDownMenu>
     );

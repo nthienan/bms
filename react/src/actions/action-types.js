@@ -1,35 +1,38 @@
 const actionTypes = {
   APPLIANCE: {
-    LOAD: 'LOAD_APPLIANCE',
-    LOAD_SUCCESS: 'LOAD_APPLIANCE_SUCCESS',
-    LOAD_ERROR: 'LOAD_APPLIANCE_ERROR',
-    SELECTED: 'SELECTED_APPLIANCE',
-    DELETE_SELECTED: 'DELETE_APPLIANCE',
-    LOAD_OWNERS: 'LOAD_OWNERS_APPLIANCE',
-    LOAD_OWNERS_SUCCESS: 'LOAD_OWNERS_APPLIANCE_SUCCESS',
-    ADD: 'ADD_APPLIANCE'
+    LOAD: '@bms/action-types/appliance/load',
+    LOAD_BY_ID: '@bms/action-types/appliance/load-by-id',
+    LOAD_SUCCESS: '@bms/action-types/appliance/load-success',
+    LOAD_ERROR: '@bms/action-types/appliance/load-error',
+    SELECTED: '@bms/action-types/appliance/selected',
+    DELETE_SELECTED: '@bms/action-types/appliance/delete',
+    LOAD_OWNERS: '@bms/action-types/appliance/load-owners',
+    LOAD_OWNERS_SUCCESS: '@bms/action-types/appliance/load-owners-success',
+    ADD: '@bms/action-types/appliance/add',
+    EDIT: '@bms/action-types/appliance/edit',
+    EDIT_SUCCESS: '@bms/action-types/appliance/edit-success'
   },
   USER: {
-    LOAD: 'LOAD_USER',
-    LOAD_SUCCESS: 'LOAD_USER_SUCCESS',
-    LOAD_ERROR: 'LOAD_USER_ERROR',
-    SELECTED: 'SELECTED_USER',
-    DELETE_SELECTED: 'DELETE_USER'
+    LOAD: '@bms/action-types/user/load',
+    LOAD_SUCCESS: '@bms/action-types/user/load-success',
+    LOAD_ERROR: '@bms/action-types/user/load-error',
+    SELECTED: '@bms/action-types/user/selected',
+    DELETE_SELECTED: '@bms/action-types/user/delete-selected'
   },
   MODAL: {
-    SHOW: 'SHOW_MODAL',
-    HIDE: 'HIDE_MODAL'
+    SHOW: '@bms/action-types/model/show',
+    HIDE: '@bms/action-types/model/hide'
   },
   RESOURCE: {
-    LOAD_LINKS: 'LOAD_RESOURCE_LINKS',
-    LOAD_LINKS_SUCCESS: 'LOAD_RESOURCE_LINKS_SUCCESS',
-    LOAD_LINKS_ERROR: 'LOAD_RESOURCE_LINKS_ERROR'
+    LOAD_LINKS: '@bms/action-types/resource/load-links',
+    LOAD_LINKS_SUCCESS: '@bms/action-types/resource/load-links-success',
+    LOAD_LINKS_ERROR: '@bms/action-types/resource/load-links-error'
   },
   REQUEST: {
-    CALL_ERROR: 'CALL_REQUEST_ERROR'
+    CALL_ERROR: '@bms/action-types/request/call-error'
   },
   ERROR: {
-    RUNTIME: 'RUNTIME_ERROR'
+    RUNTIME: '@bms/action-types/error/runtime'
   },
   AUTH: {
     AUTHENTICATED: '@bms/auth/authenticated',
