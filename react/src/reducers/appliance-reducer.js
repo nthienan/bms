@@ -1,4 +1,5 @@
 import ActionTypes from '../actions/action-types';
+import objectPath from 'object-path';
 
 const initState = {
   isLoading: true,
@@ -9,28 +10,15 @@ const initState = {
     number: 0,
     totalElements: 0
   },
-  selectedAppliances: null
+  selectedAppliances: null,
+  owners: {}
 };
 
 export default function (state = initState, action) {
   switch (action.type) {
-    /*case ActionTypes.APPLIANCE.SELECTED:
-     return {...state, selectedAppliances: action.selectedAppliances};*/
 
     case ActionTypes.APPLIANCE.LOAD:
       return {...state, isLoading: true};
-
-    case ActionTypes.APPLIANCE.DELETE_SELECTED:
-      const appliances = state.data._embedded.appliances.filter((app) => {
-        return !app.selected;
-      });
-      return {
-        ...state,
-        _embedded: {
-          ...state._embedded,
-          appliances: appliances
-        }
-      };
 
     case ActionTypes.APPLIANCE.LOAD_SUCCESS:
       return {...state, ...action.data, isLoading: false};
@@ -39,16 +27,22 @@ export default function (state = initState, action) {
       return {...state, isLoading: false};
 
     case ActionTypes.APPLIANCE.LOAD_OWNERS_SUCCESS:
-      let apps = state._embedded.appliances.map(app => {
-        if (app._links.self.href === action.applianceLink) {
-          app.owners = action.owners;
-        }
-        return app;
-      });
-      return {...state, _embedded: {...state._embedded, appliances: apps}};
+      let owners = {...state.owners};
+      objectPath.set(owners, action.applianceLink, action.owners);
+      return {...state, owners: owners};
 
     case ActionTypes.REQUEST.CALL_ERROR:
       return {...state, isLoading: false};
+
+    case ActionTypes.APPLIANCE.EDIT_SUCCESS:
+      let appliance = [...state._embedded.appliances];
+      let newAppliances = appliance.map(app => {
+        if (app._links.self.href === action.appliance._links.self.href) {
+          return action.appliance;
+        }
+        return app;
+      });
+      return {...state, _embedded: {...state._embedded, appliances: newAppliances}};
 
     default:
       return state;

@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {Card, CardTitle} from 'material-ui/Card';
-import DataTableBody from './DataTableBody';
 import CrudButtons from '../Button/CrudButtons/CrudButtons';
 
 /**
@@ -9,20 +8,13 @@ import CrudButtons from '../Button/CrudButtons/CrudButtons';
 class DataTable extends React.Component {
 
   static propTypes = {
-    data: PropTypes.array.isRequired,
-    column: PropTypes.object.isRequired,
-    total: PropTypes.number.isRequired,
-    page: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    onRowSelected: PropTypes.func,
     hideRemove: PropTypes.bool,
     onSearch: PropTypes.func,
     onReload: PropTypes.func,
     onAdd: PropTypes.func,
     onRemove: PropTypes.func,
-    handlePageSizeClick: PropTypes.func,
-    handlePageClick: PropTypes.func,
-    pageSize: PropTypes.array.isRequired
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -58,13 +50,7 @@ class DataTable extends React.Component {
               />
             </div>
           </CardTitle>
-          <DataTableBody data={this.props.data} column={this.props.column}
-                         onRowSelected={this.props.onRowSelected}
-                         total={this.props.total} page={this.props.page}
-                         handlePageClick={this.props.handlePageClick}
-                         handlePageSizeClick={this.props.handlePageSizeClick}
-                         pageSize={this.props.pageSize}
-          />
+          {this.props.children}
         </Card>
       </div>
     );

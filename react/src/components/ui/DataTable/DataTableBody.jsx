@@ -13,7 +13,6 @@ import Pagination from '../Pagination/Pagination';
 class DataTableBody extends React.Component {
 
   static propTypes = {
-    data: PropTypes.array.isRequired,
     column: PropTypes.object.isRequired,
     total: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
@@ -29,7 +28,8 @@ class DataTableBody extends React.Component {
     onRowSelected: PropTypes.func,
     handlePageClick: PropTypes.func,
     handlePageSizeClick: PropTypes.func,
-    pageSize: PropTypes.array.isRequired
+    pageSize: PropTypes.array.isRequired,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -37,7 +37,7 @@ class DataTableBody extends React.Component {
     fixedFooter: true,
     stripedRows: false,
     showRowHover: true,
-    selectable: true,
+    selectable: false,
     multiSelectable: true,
     enableSelectAll: true,
     deselectOnClickaway: false,
@@ -57,16 +57,6 @@ class DataTableBody extends React.Component {
             return <TableHeaderColumn key={idx} tooltip={value}>{value}</TableHeaderColumn>
           })
         }
-      </TableRow>
-    );
-  }
-
-  renderRow(row, index) {
-    return (
-      <TableRow key={index} selected={row.selected}>
-        {Object.keys(this.props.column).map((key, i) => {
-          return <TableRowColumn key={i}>{row[key]}</TableRowColumn>;
-        })}
       </TableRow>
     );
   }
@@ -97,9 +87,7 @@ class DataTableBody extends React.Component {
           showRowHover={this.props.showRowHover}
           stripedRows={this.props.stripedRows}
         >
-          {this.props.data.map((row, index) =>
-            this.renderRow(row, index)
-          )}
+          {this.props.children}
         </TableBody>
         <TableFooter>
           <TableRow>
