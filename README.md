@@ -1,6 +1,7 @@
 # BMS Application
 [![Build Status](https://api.travis-ci.org/thienan93/bms.svg?branch=master)](https://travis-ci.org/thienan93/bms)
 
+![bms.gif](https://s17.postimg.org/mk5b6vfvj/image.gif)
 ## Technologies
 
 - Spring boot
